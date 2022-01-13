@@ -10,7 +10,7 @@ export default function Greenqueen() {
         React, since it is known to be one of the most popular and powerful
         frontend frameworks/libraries out there. GreenQueen is a local grow
         store owned by a friend of mine, he didn't had a webpage for the
-        bussiness, so again, I figured that I could try and do something that
+        business, so again, I figured that I could try and do something that
         could be useful while learning. This project was born as a frontend
         project, but turned out to be a fullstack MERN one, including user
         authentication for the web administration, as well as payment gateway to
