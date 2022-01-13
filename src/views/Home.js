@@ -11,6 +11,7 @@ import Ceibo from "../components/Ceibo";
 import FeedMeApp from "../components/FeedMeApp";
 import Rentx from "../components/Rentx";
 import Cencosud from "../components/Cencosud";
+import Picture from "../assets/desktop-profile.jpg";
 
 export default function Home() {
   return (
@@ -41,7 +42,12 @@ export default function Home() {
         </div>
 
         <div className="hidden lg:block w-4/12"></div>
-        <div className="hidden lg:block w-4/12 fixed bg-right bg-no-repeat bg-cover bg-[url('https://lh3.googleusercontent.com/nfn5NvtsB-DouvI7I_Xb8NOl6GShLM2Qy1rNBhvrE2eVtf-JYaorSha8IZ6YQFisqEBSsrvC2PnfqPz1dWpysdDSa-jY7ItIQDwtezBBbDNc3cxzZsjrKAYoVPRoAmDsTquLL3iYzkjoqUwaR9dLDElzO02L7SEZLLWF-ohoYIr_mtInJcg_VB6F1_z6nLLY9hsxVlUkBVspvz289VWAayQh1nz-REUSxdFUbIU1yII0fdBXowgmSLDge0RbeHd7CV9-HeWphA1YEuoWG7zgJQHO_-zZKlW2FGoCfWz8RDSh3EadHwD9WElU3y5CvCQzB9fXpw6vYdzqzvN9HNITwGB1PnN3fiFrmsGQ3acPjMf0Jgv6_CO_svlmfRakzTvbAvA_omFgO8_A_mICOpKBCmzxua22ZS6Xyr35hLm4y3YI8jq3l0v9u-NwqBRbbt74pXn0Pfmrl_WU90KZjl_AmLd6jp3ymU8jdnm76wA-7nSgyeSe6CmxoNRe0aOVX_6K4Ia03YNqS7KX0tzB8cxxvoBlBVd6b8UMT_-jsHpQvqHoGQnf3Vr_hNfM3GUCvEriXvlBSm7rwFtl7dHA5k6BvfArUFOrpszZXMRA6lVPwHpb-xqy6EWhfsy9BumNOiw0R3vCX7rLFalAc2a1OZ-UdwK0Yi7uFEP7KBpIN7alJQG3kWKoTeOhnrfYGJDV0KbJxoLmtXf12FGEIbBHiryhp1Reyw=w708-h943-no?authuser=0')] h-screen shadow-2xl">
+        <div
+          className="hidden lg:block w-4/12 fixed bg-right bg-no-repeat bg-cover h-screen shadow-2xl"
+          style={{
+            backgroundImage: `url(${Picture})`,
+          }}
+        >
           <div
             className="flex flex-col rounded-full w-64 h-96 shadow-2xl bg-gradient-to-b from-zinc-900 to-zinc-600 justify-center relative z-10 hover:scale-105 hover:cursor-pointer transition ease-in-out"
             style={{ top: "20%", left: "75%" }}
