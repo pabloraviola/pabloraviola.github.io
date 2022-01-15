@@ -1,4 +1,5 @@
 import React from "react";
+import Boop from "./animations/Boop";
 
 export default function FeedMeApp() {
   return (
@@ -7,12 +8,14 @@ export default function FeedMeApp() {
         src={require("../assets/fda/fdalogo.png")}
         className="self-center h-80"
       ></img>
-      <a href={require("../assets/fda/fdahome.PNG")} target="_blank">
-        <img
-          src={require("../assets/fda/fdahome.PNG")}
-          className="rounded-xl hover:scale-105 hover:cursor-pointer transition ease-in-out"
-        />
-      </a>
+      <Boop scale={1.05}>
+        <a href={require("../assets/fda/fdahome.PNG")} target="_blank">
+          <img
+            src={require("../assets/fda/fdahome.PNG")}
+            className="rounded-xl hover:scale-105 hover:cursor-pointer transition ease-in-out"
+          />
+        </a>
+      </Boop>
       <div className="flex space-x-3">
         <a
           href={require("../assets/fda/fdacrud.PNG")}

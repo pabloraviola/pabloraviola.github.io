@@ -1,5 +1,6 @@
 import React from "react";
 import { ReactComponent as Logo } from "../assets/greenqueen/gqlogo.svg";
+import Boop from "./animations/Boop";
 
 export default function Greenqueen() {
   return (
@@ -16,12 +17,14 @@ export default function Greenqueen() {
         authentication for the web administration, as well as payment gateway to
         finish the purchases
       </p>
-      <a href={require("../assets/greenqueen/gqhome.PNG")} target="_blank">
-        <img
-          src={require("../assets/greenqueen/gqhome.PNG")}
-          className="rounded-xl hover:scale-105 hover:cursor-pointer transition ease-in-out"
-        />
-      </a>
+      <Boop scale={1.05}>
+        <a href={require("../assets/greenqueen/gqhome.PNG")} target="_blank">
+          <img
+            src={require("../assets/greenqueen/gqhome.PNG")}
+            className="rounded-xl hover:scale-105 hover:cursor-pointer transition ease-in-out"
+          />
+        </a>
+      </Boop>
       <div className="flex space-x-3">
         <a
           href={require("../assets/greenqueen/gqadmin.PNG")}

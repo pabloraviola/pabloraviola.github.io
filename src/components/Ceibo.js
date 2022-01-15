@@ -1,4 +1,5 @@
 import React from "react";
+import Boop from "./animations/Boop";
 
 export default function Ceibo() {
   return (
@@ -14,12 +15,14 @@ export default function Ceibo() {
         other insurance agency related things. This project is built with .NET,
         Javascript and SQL technologies
       </p>
-      <a href={require("../assets/ceibo/ceibologin.PNG")} target="_blank">
-        <img
-          src={require("../assets/ceibo/ceibologin.PNG")}
-          className="rounded-xl hover:scale-105 hover:cursor-pointer transition ease-in-out"
-        />
-      </a>
+      <Boop scale={1.05}>
+        <a href={require("../assets/ceibo/ceibologin.PNG")} target="_blank">
+          <img
+            src={require("../assets/ceibo/ceibologin.PNG")}
+            className="rounded-xl hover:scale-105 hover:cursor-pointer transition ease-in-out"
+          />
+        </a>
+      </Boop>
     </div>
   );
 }
