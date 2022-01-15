@@ -13,6 +13,8 @@ import Rentx from "../components/Rentx";
 import Cencosud from "../components/Cencosud";
 import Picture from "../assets/desktop-profile.jpg";
 import Boop from "../components/animations/Boop";
+import { ReactComponent as Kubernettes } from "../assets/kubernettes-logo.svg";
+import { ReactComponent as Tailwind } from "../assets/tailwind-logo.svg";
 
 export default function Home() {
   return (
@@ -102,6 +104,20 @@ export default function Home() {
                 </Boop>
                 <Boop scale={1.08} rotation={10} timing={200}>
                   <i className="fab fa-bootstrap text-violet-600 cursor-pointer"></i>
+                </Boop>
+              </div>
+              <div className="flex self-center space-x-3 sm:space-x-8 text-4xl sm:text-7xl">
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <Tailwind className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
+                </Boop>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <i className="fab fa-aws text-amber-400 cursor-pointer"></i>
+                </Boop>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <i className="fab fa-docker text-blue-600 cursor-pointer"></i>
+                </Boop>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <Kubernettes className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
                 </Boop>
               </div>
             </div>
