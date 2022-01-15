@@ -1,5 +1,6 @@
 import React from "react";
 import Blob from "./Blob";
+import Boop from "./animations/Boop";
 
 export default function PersonalInfo() {
   return (
@@ -31,46 +32,56 @@ export default function PersonalInfo() {
           </h1>
 
           <div className="flex text-white space-x-3 text-xl">
-            <a
-              href="https://www.facebook.com/pablo.raviola/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-emerald-600 transition ease-in-out"
-            >
-              <i className="fab fa-facebook"></i>
-            </a>
-            <a
-              href="https://www.instagram.com/pabloraviola/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-emerald-600 transition ease-in-out"
-            >
-              <i className="fab fa-instagram"></i>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/pablo-raviola-9a833b164/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-emerald-600 transition ease-in-out"
-            >
-              <i className="fab fa-linkedin"></i>
-            </a>
-            <a
-              href="https://github.com/pabloraviola"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-emerald-600 transition ease-in-out"
-            >
-              <i className="fab fa-github"></i>
-            </a>
-            <a
-              href="https://gitlab.com/pablo.raviola"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-emerald-600 transition ease-in-out"
-            >
-              <i className="fab fa-gitlab"></i>
-            </a>
+            <Boop rotation={20}>
+              <a
+                href="https://www.facebook.com/pablo.raviola/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-600 transition ease-in-out"
+              >
+                <i className="fab fa-facebook"></i>
+              </a>
+            </Boop>
+            <Boop rotation={20}>
+              <a
+                href="https://www.instagram.com/pabloraviola/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-600 transition ease-in-out"
+              >
+                <i className="fab fa-instagram"></i>
+              </a>
+            </Boop>
+            <Boop rotation={20}>
+              <a
+                href="https://www.linkedin.com/in/pablo-raviola-9a833b164/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-600 transition ease-in-out"
+              >
+                <i className="fab fa-linkedin"></i>
+              </a>
+            </Boop>
+            <Boop rotation={20}>
+              <a
+                href="https://github.com/pabloraviola"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-600 transition ease-in-out"
+              >
+                <i className="fab fa-github"></i>
+              </a>
+            </Boop>
+            <Boop rotation={20}>
+              <a
+                href="https://gitlab.com/pablo.raviola"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-600 transition ease-in-out"
+              >
+                <i className="fab fa-gitlab"></i>
+              </a>
+            </Boop>
           </div>
         </div>
 

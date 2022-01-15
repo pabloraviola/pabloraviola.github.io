@@ -20,12 +20,14 @@ export default function Siblings() {
       </Boop>
 
       <Lightning className="w-8/12 sm:w-5/12 2xl:w-4/12 self-center relative bottom-4 -rotate-3" />
-      <a href={require("../assets/siblings/sibhome.PNG")} target="_blank">
-        <img
-          src={require("../assets/siblings/sibhome.PNG")}
-          className="rounded-xl hover:scale-105 hover:cursor-pointer transition ease-in-out"
-        />
-      </a>
+      <Boop scale={1.05}>
+        <a href={require("../assets/siblings/sibhome.PNG")} target="_blank">
+          <img
+            src={require("../assets/siblings/sibhome.PNG")}
+            className="rounded-xl hover:scale-105 hover:cursor-pointer transition ease-in-out"
+          />
+        </a>
+      </Boop>
       <div className="flex space-x-3">
         <a
           href={require("../assets/siblings/sibcontact.PNG")}

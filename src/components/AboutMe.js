@@ -4,12 +4,12 @@ import Boop from "./animations/Boop";
 export default function AboutMe() {
   return (
     <div className="px-10 md:px-20 lg:px-52 pt-10">
-      <Boop rotation={10}>
+      <Boop rotation={10} x={5} timing={900}>
         <h1 className="text-gray-300 text-2xl font-bold italic cursor-pointer hover:text-emerald-500 delay-150">
           ABOUT ME
         </h1>
       </Boop>
-      <Boop x={2} scale={1.01} y={2}>
+      <Boop x={2} scale={1.01} y={10}>
         <p
           className="text-gray-300 text-sm sm:text-base"
           style={{ fontFamily: "Poppins" }}

@@ -1,16 +1,19 @@
 import React from "react";
 import { ReactComponent as Logo } from "../assets/rentx/logo.svg";
+import Boop from "./animations/Boop";
 
 export default function Rentx() {
   return (
     <div className="flex flex-col space-y-10 px-10 md:px-20 lg:px-52 pt-10 space-y-5">
       <Logo className="w-80 h-60 self-center" />
-      <a href={require("../assets/rentx/login.PNG")} target="_blank">
-        <img
-          src={require("../assets/rentx/login.PNG")}
-          className="rounded-xl hover:scale-105 hover:cursor-pointer transition ease-in-out"
-        />
-      </a>
+      <Boop scale={1.05}>
+        <a href={require("../assets/rentx/login.PNG")} target="_blank">
+          <img
+            src={require("../assets/rentx/login.PNG")}
+            className="rounded-xl hover:scale-105 hover:cursor-pointer transition ease-in-out"
+          />
+        </a>
+      </Boop>
       <div className="flex space-x-3">
         <a
           href={require("../assets/rentx/home.PNG")}
