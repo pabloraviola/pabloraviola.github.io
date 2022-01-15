@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.4df70685.css",
-    "main.js": "/static/js/main.4aca88d8.js",
+    "main.css": "/static/css/main.ca92a896.css",
+    "main.js": "/static/js/main.91d796e4.js",
     "static/js/787.943d1ce3.chunk.js": "/static/js/787.943d1ce3.chunk.js",
     "static/media/desktop-profile.jpg": "/static/media/desktop-profile.fe17c207eeb3a18f64b2.jpg",
     "static/media/gqhome.PNG": "/static/media/gqhome.a05e45362d6a6b741261.PNG",
@@ -35,14 +35,16 @@
     "static/media/gqlogo.svg": "/static/media/gqlogo.b4f82d41b3a2105318f05b7a0d68be1d.svg",
     "static/media/sibcontact.PNG": "/static/media/sibcontact.1288d5a044bccf45eb88.PNG",
     "static/media/fdalogo.png": "/static/media/fdalogo.c3148012f304f69bd40e.png",
+    "static/media/kubernettes-logo.svg": "/static/media/kubernettes-logo.9c2b252df012670856cc2db6e7364d84.svg",
     "static/media/lightning.svg": "/static/media/lightning.bd807ef994fc582b7c42e39fcec1b46a.svg",
+    "static/media/tailwind-logo.svg": "/static/media/tailwind-logo.50fbcf516b9a3774e9a83272167059ae.svg",
     "index.html": "/index.html",
-    "main.4df70685.css.map": "/static/css/main.4df70685.css.map",
-    "main.4aca88d8.js.map": "/static/js/main.4aca88d8.js.map",
+    "main.ca92a896.css.map": "/static/css/main.ca92a896.css.map",
+    "main.91d796e4.js.map": "/static/js/main.91d796e4.js.map",
     "787.943d1ce3.chunk.js.map": "/static/js/787.943d1ce3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4df70685.css",
-    "static/js/main.4aca88d8.js"
+    "static/css/main.ca92a896.css",
+    "static/js/main.91d796e4.js"
   ]
 }
