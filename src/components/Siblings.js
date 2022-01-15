@@ -1,18 +1,24 @@
 import React from "react";
 import { ReactComponent as Lightning } from "../assets/siblings/lightning.svg";
+import Boop from "./animations/Boop";
 
 export default function Siblings() {
   return (
     <div className="flex flex-col space-y-10 px-10 md:px-20 lg:px-52 pt-10 space-y-5">
-      <h1 className="text-gray-300 text-2xl mb-5 font-bold italic">
-        PORTFOLIO
-      </h1>
-      <div
-        className="text-white text-center tracking-wide text-7xl -rotate-6"
-        style={{ fontFamily: "Yellowtail" }}
-      >
-        Siblings!
-      </div>
+      <Boop scale={1.05}>
+        <h1 className="text-gray-300 text-2xl mb-5 font-bold italic cursor-pointer hover:text-emerald-600">
+          PORTFOLIO
+        </h1>
+      </Boop>
+      <Boop scale={1.05}>
+        <div
+          className="text-white text-center tracking-wide cursor-pointer text-7xl -rotate-6"
+          style={{ fontFamily: "Yellowtail" }}
+        >
+          Siblings!
+        </div>
+      </Boop>
+
       <Lightning className="w-8/12 sm:w-5/12 2xl:w-4/12 self-center relative bottom-4 -rotate-3" />
       <a href={require("../assets/siblings/sibhome.PNG")} target="_blank">
         <img

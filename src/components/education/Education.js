@@ -2,13 +2,16 @@ import React from "react";
 import Degree from "./Degree";
 import fce from "../../assets/fce.pdf";
 import cae from "../../assets/cae.pdf";
+import Boop from "../animations/Boop";
 
 export default function Education() {
   return (
     <div className="flex flex-col space-y-10 px-10 md:px-20 lg:px-52 pt-10 space-y-5">
-      <h1 className="text-gray-300 text-2xl font-bold italic mb-10">
-        EDUCATION
-      </h1>
+      <Boop scale={1.05}>
+        <h1 className="text-gray-300 text-2xl font-bold italic mb-10 cursor-pointer hover:text-emerald-500">
+          EDUCATION
+        </h1>
+      </Boop>
       <div
         className="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-5"
         style={{ fontFamily: "Poppins" }}

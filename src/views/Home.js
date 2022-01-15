@@ -12,6 +12,7 @@ import FeedMeApp from "../components/FeedMeApp";
 import Rentx from "../components/Rentx";
 import Cencosud from "../components/Cencosud";
 import Picture from "../assets/desktop-profile.jpg";
+import Boop from "../components/animations/Boop";
 
 export default function Home() {
   return (
@@ -43,7 +44,7 @@ export default function Home() {
 
         <div className="hidden lg:block w-4/12"></div>
         <div
-          className="hidden lg:block w-4/12 fixed bg-right bg-no-repeat bg-cover h-screen shadow-2xl"
+          className="hidden lg:block w-4/12 fixed bg-right bg-no-repeat bg-cover h-screen shadow-2xl hover:scale-105 transition ease-in-out"
           style={{
             backgroundImage: `url(${Picture})`,
           }}
@@ -52,7 +53,9 @@ export default function Home() {
             className="flex flex-col rounded-full w-64 h-96 shadow-2xl bg-gradient-to-b from-zinc-900 to-zinc-600 justify-center relative z-10 hover:scale-105 hover:cursor-pointer transition ease-in-out"
             style={{ top: "20%", left: "75%" }}
           >
-            <PersonalInfo />
+            <Boop scale={1.02}>
+              <PersonalInfo />
+            </Boop>
           </div>
           <Blob
             size="medium"
@@ -73,17 +76,33 @@ export default function Home() {
           <section className="bg-gradient-to-b from-emerald-800 to-emerald-600">
             <Experience />
             <div className="flex w-full flex-col p-20 px-10 md:px-20 lg:px-52 space-y-5">
-              <h1 className="text-gray-300 text-2xl mb-5 font-bold italic">
-                TECHNOLOGIES
-              </h1>
+              <Boop scale={1.05}>
+                <h1 className="text-gray-300 text-2xl mb-5 font-bold italic cursor-pointer hover:text-gray-800">
+                  TECHNOLOGIES
+                </h1>
+              </Boop>
               <div className="flex self-center space-x-3 sm:space-x-8 text-4xl sm:text-7xl">
-                <i className="fab fa-js-square text-yellow-500 hover:scale-110 hover:cursor-pointer transition ease-in-out"></i>
-                <i className="fab fa-vuejs text-green-500 hover:scale-110 hover:cursor-pointer transition ease-in-out"></i>
-                <i className="fab fa-react text-sky-500 hover:scale-110 hover:cursor-pointer transition ease-in-out"></i>
-                <i className="fab fa-node-js text-green-600 hover:scale-110 hover:cursor-pointer transition ease-in-out"></i>
-                <i className="fab fa-html5 text-orange-600 hover:scale-110 hover:cursor-pointer transition ease-in-out"></i>
-                <i className="fab fa-css3-alt text-blue-600 hover:scale-110 hover:cursor-pointer transition ease-in-out"></i>
-                <i className="fab fa-bootstrap text-violet-600 hover:scale-110 hover:cursor-pointer transition ease-in-out"></i>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <i className="fab fa-js-square text-yellow-500 cursor-pointer"></i>
+                </Boop>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <i className="fab fa-vuejs text-green-500 cursor-pointer"></i>
+                </Boop>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <i className="fab fa-react text-sky-500 cursor-pointer"></i>
+                </Boop>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <i className="fab fa-node-js text-green-600 cursor-pointer"></i>
+                </Boop>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <i className="fab fa-html5 text-orange-600 cursor-pointer"></i>
+                </Boop>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <i className="fab fa-css3-alt text-blue-600 cursor-pointer"></i>
+                </Boop>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <i className="fab fa-bootstrap text-violet-600 cursor-pointer"></i>
+                </Boop>
               </div>
             </div>
             <Wave fromColor="#3f3f46" toColor="#18181b" />
