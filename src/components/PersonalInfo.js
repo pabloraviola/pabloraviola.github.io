@@ -17,12 +17,14 @@ export default function PersonalInfo() {
 
       <div className="flex flex-col items-center justify-end space-y-5">
         <div className="flex flex-col items-center space-y-2">
-          <h1
-            style={{ fontFamily: "Bebas Neue" }}
-            className="tracking-wider text-7xl lg:text-4xl text-white hover:text-emerald-600 transition ease-in-out"
-          >
-            PABLO RAVIOLA
-          </h1>
+          <Boop rotation={-5} timing={200} scale={1.05}>
+            <h1
+              style={{ fontFamily: "Bebas Neue" }}
+              className="tracking-wider text-7xl lg:text-4xl text-white hover:text-emerald-600 transition ease-in-out"
+            >
+              PABLO RAVIOLA
+            </h1>
+          </Boop>
 
           <h1
             className="text-xl lg:text-sm text-white italic"
