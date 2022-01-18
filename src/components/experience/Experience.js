@@ -26,10 +26,16 @@ export default function Experience() {
         company="E-PARTNERS S.R.L"
       />
       <Job
+        period="[2019-2021]"
+        position="FULLSTACK WEB DEVELOPER"
+        company="SANCOR SEGUROS"
+      />
+      <Job
         period="[2021-NOW]"
         position="FULLSTACK WEB DEVELOPER"
         company="SIMTLIX S.R.L"
       />
+      <Job period="[2021-NOW]" position="TECH LEAD" company="CENCOSUD S.A" />
     </div>
   );
 }
