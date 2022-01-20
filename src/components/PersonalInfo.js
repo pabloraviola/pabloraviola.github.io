@@ -20,7 +20,7 @@ export default function PersonalInfo() {
           <Boop rotation={-5} timing={200} scale={1.05}>
             <h1
               style={{ fontFamily: "Bebas Neue" }}
-              className="tracking-wider text-7xl lg:text-4xl text-white hover:text-emerald-600 transition ease-in-out"
+              className="tracking-wider text-5xl sm:text-7xl lg:text-4xl text-white hover:text-emerald-600 transition ease-in-out"
             >
               PABLO RAVIOLA
             </h1>
