@@ -38,7 +38,7 @@ export default function Home() {
         <div className="flex flex-col py-10 space-y-2 items-center lg:hidden h-96 bg-cover bg-[url('https://images.unsplash.com/photo-1547954575-855750c57bd3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')]">
           <PersonalInfo />
           <img
-            className="border-4 border-black relative top-10 rounded-full h-64 w-64"
+            className="border-4 border-black relative top-16 sm:top-10 rounded-full h-64 w-64"
             src={require("../assets/picture.jpeg")}
             alt="profile"
           />
