@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.312875fd.css",
-    "main.js": "/static/js/main.ee3ca150.js",
+    "main.js": "/static/js/main.6cbb01c2.js",
     "static/js/787.943d1ce3.chunk.js": "/static/js/787.943d1ce3.chunk.js",
     "static/media/desktop-profile.jpg": "/static/media/desktop-profile.fe17c207eeb3a18f64b2.jpg",
     "static/media/gqhome.PNG": "/static/media/gqhome.a05e45362d6a6b741261.PNG",
@@ -39,12 +39,13 @@
     "static/media/lightning.svg": "/static/media/lightning.bd807ef994fc582b7c42e39fcec1b46a.svg",
     "static/media/tailwind-logo.svg": "/static/media/tailwind-logo.50fbcf516b9a3774e9a83272167059ae.svg",
     "index.html": "/index.html",
+    "static/media/terraformio-icon.svg": "/static/media/terraformio-icon.33b1dce5848f8692e1d0018c64ff6a37.svg",
     "main.312875fd.css.map": "/static/css/main.312875fd.css.map",
-    "main.ee3ca150.js.map": "/static/js/main.ee3ca150.js.map",
+    "main.6cbb01c2.js.map": "/static/js/main.6cbb01c2.js.map",
     "787.943d1ce3.chunk.js.map": "/static/js/787.943d1ce3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.312875fd.css",
-    "static/js/main.ee3ca150.js"
+    "static/js/main.6cbb01c2.js"
   ]
 }
