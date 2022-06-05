@@ -35,7 +35,12 @@ export default function Experience() {
         position="FULLSTACK WEB DEVELOPER"
         company="SIMTLIX S.R.L"
       />
-      <Job period="[2021-NOW]" position="TECH LEAD" company="CENCOSUD S.A" />
+      <Job period="[2021-2022]" position="TECH LEAD" company="CENCOSUD S.A" />
+      <Job
+        period="[2022-NOW]"
+        position="SOFTWARE ENGINEER"
+        company="WHITE PROMPT"
+      />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import Ceibo from "../components/Ceibo";
 import FeedMeApp from "../components/FeedMeApp";
 import Rentx from "../components/Rentx";
 import Cencosud from "../components/Cencosud";
+import WhitePrompt from "../components/WhitePrompt";
 import Picture from "../assets/desktop-profile.jpg";
 import Boop from "../components/animations/Boop";
 import { ReactComponent as Kubernettes } from "../assets/kubernettes-logo.svg";
@@ -147,8 +148,12 @@ export default function Home() {
             <Rentx />
             <Wave fromColor="#1e40af" toColor="#1e3a8a" />
           </section>
-          <section className="bg-gradient-to-b from-blue-900 to-blue-600 pb-20">
+          <section className="bg-gradient-to-b from-blue-900 to-blue-600">
             <Cencosud />
+            <Wave fromColor="#fff" toColor="#fff" />
+          </section>
+          <section className="bg-gradient-to-b from-white to-slate-100 pb-20">
+            <WhitePrompt />
           </section>
         </div>
       </div>
