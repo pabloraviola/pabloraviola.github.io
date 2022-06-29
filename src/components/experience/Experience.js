@@ -31,7 +31,7 @@ export default function Experience() {
         company="SANCOR SEGUROS"
       />
       <Job
-        period="[2021-NOW]"
+        period="[2021-2022]"
         position="FULLSTACK WEB DEVELOPER"
         company="SIMTLIX S.R.L"
       />
