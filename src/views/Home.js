@@ -17,6 +17,7 @@ import Boop from "../components/animations/Boop";
 import { ReactComponent as Kubernettes } from "../assets/kubernettes-logo.svg";
 import { ReactComponent as Tailwind } from "../assets/tailwind-logo.svg";
 import { ReactComponent as Terraform } from "../assets/terraformio-icon.svg";
+import { ReactComponent as GraphQL } from "../assets/graphql.svg";
 
 export default function Home() {
   return (
@@ -123,6 +124,9 @@ export default function Home() {
                 </Boop>
                 <Boop scale={1.08} rotation={10} timing={200}>
                   <Terraform className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
+                </Boop>
+                <Boop scale={1.08} rotation={10} timing={200}>
+                  <GraphQL className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
                 </Boop>
               </div>
             </div>
