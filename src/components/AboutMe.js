@@ -16,7 +16,7 @@ export default function AboutMe() {
         >
           I'm a fullstack web developer and a systems engineering student from
           San Francisco, Córdoba - ARG. My main goal right now is to get my
-          engineering degree, which will hopefully be next year. In the
+          engineering degree, which will hopefully be this year. In the
           meantime, I'm building my career as a developer learning as much as I
           can about the new technologies that come across. I consider myself as
           a proactive person who's always willing to take new challenges in
