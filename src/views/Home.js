@@ -1,6 +1,7 @@
 import React from "react";
 import PersonalInfo from "../components/PersonalInfo";
 import Wave from "../components/Wave";
+import Tilt from "../components/Tilt";
 import Blob from "../components/Blob";
 import AboutMe from "../components/AboutMe";
 import Education from "../components/education/Education";
@@ -72,11 +73,13 @@ export default function Home() {
         <div className="w-full lg:w-8/12 h-full">
           <section className="pt-28 lg:pt-0 bg-gradient-to-b from-zinc-900 to-zinc-700">
             <AboutMe />
-            <Wave fromColor="#3f3f46" toColor="#1f2937" />
+
+            <Tilt color="#1f2937" direction="left" />
           </section>
+
           <section className="bg-gradient-to-b  from-gray-800 to-gray-900">
             <Education />
-            <Wave fromColor="#064e3b" toColor="#065f46" />
+            <Wave fromColor="#064e3b" toColor="#065f46" animate={true} />
           </section>
           <section className="bg-gradient-to-b from-emerald-800 to-emerald-600">
             <Experience />
@@ -130,31 +133,31 @@ export default function Home() {
                 </Boop>
               </div>
             </div>
-            <Wave fromColor="#3f3f46" toColor="#18181b" />
+            <Tilt color="#18181b" />
           </section>
           <section className="bg-gradient-to-b from-zinc-900 to-zinc-700">
             <Siblings />
-            <Wave fromColor="#16a34a" toColor="#166534" />
+            <Wave fromColor="#16a34a" toColor="#166534" animate={true} />
           </section>
           <section className="bg-gradient-to-b from-green-800 to-green-600">
             <Greenqueen />
-            <Wave fromColor="#ef4444" toColor="#b91c1c" />
+            <Wave fromColor="#ef4444" toColor="#b91c1c" animate={true} />
           </section>
           <section className="bg-gradient-to-b from-red-700 to-red-500">
             <FeedMeApp />
-            <Wave fromColor="#f1f5f9" toColor="#94a3b8" />
+            <Wave fromColor="#f1f5f9" toColor="#94a3b8" animate={true} />
           </section>
           <section className="bg-gradient-to-b from-slate-400 to-slate-500">
             <Ceibo />
-            <Wave fromColor="#3b82f6" toColor="#2563eb" />
+            <Wave fromColor="#3b82f6" toColor="#2563eb" animate={true} />
           </section>
           <section className="bg-gradient-to-b from-blue-600 to-blue-800">
             <Rentx />
-            <Wave fromColor="#1e40af" toColor="#1e3a8a" />
+            <Wave fromColor="#1e40af" toColor="#1e3a8a" animate={true} />
           </section>
           <section className="bg-gradient-to-b from-blue-900 to-blue-600">
             <Cencosud />
-            <Wave fromColor="#fff" toColor="#fff" />
+            <Wave fromColor="#fff" toColor="#fff" animate={true} />
           </section>
           <section className="bg-gradient-to-b from-white to-slate-100 pb-20">
             <WhitePrompt />
