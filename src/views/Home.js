@@ -19,6 +19,8 @@ import { ReactComponent as Kubernettes } from "../assets/kubernettes-logo.svg";
 import { ReactComponent as Tailwind } from "../assets/tailwind-logo.svg";
 import { ReactComponent as Terraform } from "../assets/terraformio-icon.svg";
 import { ReactComponent as GraphQL } from "../assets/graphql.svg";
+import { ReactComponent as Gatsby } from "../assets/gatsby.svg";
+import { ReactComponent as Next } from "../assets/nextjs.svg";
 
 export default function Home() {
   return (
@@ -131,6 +133,12 @@ export default function Home() {
                 <Boop scale={1.08} rotation={10} timing={200}>
                   <GraphQL className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
                 </Boop>
+                {/* <Boop scale={1.08} rotation={10} timing={200}>
+                  <Gatsby className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
+                </Boop> */}
+                {/* <Boop scale={1.08} rotation={10} timing={200}>
+                  <Next className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
+                </Boop> */}
               </div>
             </div>
             <Tilt color="#18181b" />
