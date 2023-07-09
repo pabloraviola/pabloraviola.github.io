@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.d0a5bf69.css",
-    "main.js": "/static/js/main.a7606f43.js",
+    "main.js": "/static/js/main.81529c3c.js",
     "static/js/787.943d1ce3.chunk.js": "/static/js/787.943d1ce3.chunk.js",
     "static/media/desktop-profile.jpg": "/static/media/desktop-profile.fe17c207eeb3a18f64b2.jpg",
     "static/media/gqhome.PNG": "/static/media/gqhome.a05e45362d6a6b741261.PNG",
@@ -37,16 +37,18 @@
     "static/media/fdalogo.png": "/static/media/fdalogo.c3148012f304f69bd40e.png",
     "static/media/kubernettes-logo.svg": "/static/media/kubernettes-logo.9c2b252df012670856cc2db6e7364d84.svg",
     "static/media/lightning.svg": "/static/media/lightning.bd807ef994fc582b7c42e39fcec1b46a.svg",
+    "static/media/nextjs.svg": "/static/media/nextjs.e3c042b9d9d809ebb67e9bc6e1e5f70d.svg",
     "static/media/graphql.svg": "/static/media/graphql.8171c4e3dae8f04496d6fd1ac23f2940.svg",
     "static/media/tailwind-logo.svg": "/static/media/tailwind-logo.50fbcf516b9a3774e9a83272167059ae.svg",
     "index.html": "/index.html",
     "static/media/terraformio-icon.svg": "/static/media/terraformio-icon.33b1dce5848f8692e1d0018c64ff6a37.svg",
+    "static/media/gatsby.svg": "/static/media/gatsby.1930007f64b4babe3059f856e93dc05b.svg",
     "main.d0a5bf69.css.map": "/static/css/main.d0a5bf69.css.map",
-    "main.a7606f43.js.map": "/static/js/main.a7606f43.js.map",
+    "main.81529c3c.js.map": "/static/js/main.81529c3c.js.map",
     "787.943d1ce3.chunk.js.map": "/static/js/787.943d1ce3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d0a5bf69.css",
-    "static/js/main.a7606f43.js"
+    "static/js/main.81529c3c.js"
   ]
 }
