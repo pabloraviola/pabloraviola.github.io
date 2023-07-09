@@ -99,15 +99,14 @@ export default function Rentx() {
         </a>
       </div>
       <p className="text-white" style={{ fontFamily: "Poppins" }}>
-        RentX is the project that will eventually get me my engineering degree.
-        My college teammates and I are currently building this web app for it to
-        be presented as our Final Project (thesis). It is addressed to Real
-        Estate agencies as well as to people looking for a place to rent
-        (tenants). We are learning a lot while building it, not only about web
-        development but also about mobile, since it will have its own
-        react-native App. It is made using React.js and Tailwind on the Web
-        frontend side, React Native for the mobile App, and Node.js on the
-        backend.
+        RentX is the project that got me my engineering degree. My college
+        teammates and I built this web app for it to be presented as our Final
+        Project (thesis). It is addressed to Real Estate agencies as well as to
+        people looking for a place to rent (tenants). We are learned a lot
+        building it, not only about web development but also about mobile, since
+        it has its own react-native App. It is made using React.js and Tailwind
+        on the Web frontend side, React Native for the mobile App, and Node.js
+        on the backend.
       </p>
     </div>
   );
