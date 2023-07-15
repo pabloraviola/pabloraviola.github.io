@@ -33,13 +33,13 @@ export default function WhitePrompt() {
           ></i>
         </Boop>
         <p>
-          Online arbitration platform used when 2 parties have a legal dispute.
-          Before starting a legal process, a private arbitration is required -
-          Every party is allowed to document their side of the story producing
-          evidence, and later the arbitrator will decide who wins the dispute.
-          All this is done asynchronously, through the platform. This is a
-          full-stack project built using React, Next, NodeJs, Nest, GraphQL and
-          MongoDB.
+          Online arbitration platform used to resolve legal disputes between 2
+          parties. Before starting a legal process, a private arbitration is
+          required - Every party is allowed to document their side of the story
+          producing evidence, and later the arbitrator will decide who wins the
+          dispute. All this is done asynchronously, through the platform. This
+          is a full-stack project built using React, Next, NodeJs, Nest, GraphQL
+          and MongoDB.
         </p>
       </div>
       <div className="flex space-x-5">
@@ -49,7 +49,7 @@ export default function WhitePrompt() {
           ></i>
         </Boop>
         <p>
-          American massive open e-learning platform that provides open onnline
+          American massive open e-learning platform that provides open online
           university-level courses in a wide range of disciplines to a worldwide
           student community. Technologies: React, Gatsby, GraphQL, NodeJs,
           Algolia, Contentful, Django.
