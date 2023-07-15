@@ -102,11 +102,11 @@ export default function Rentx() {
         RentX is the project that got me my engineering degree. My college
         teammates and I built this web app for it to be presented as our Final
         Project (thesis). It is addressed to Real Estate agencies as well as to
-        people looking for a place to rent (tenants). We are learned a lot
-        building it, not only about web development but also about mobile, since
-        it has its own react-native App. It is made using React.js and Tailwind
-        on the Web frontend side, React Native for the mobile App, and Node.js
-        on the backend.
+        people looking for a place to rent (tenants). We learned a lot building
+        it, not only about web development but also about mobile, since it has
+        its own react-native App. It is made using React.js and Tailwind on the
+        Web frontend side, React Native for the mobile App, and Node.js on the
+        backend.
       </p>
     </div>
   );
