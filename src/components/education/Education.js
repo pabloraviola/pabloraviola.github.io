@@ -34,9 +34,9 @@ export default function Education() {
         </a>
         <div className="md:hidden">
           <Degree
-            title="SYSTEMS ENGINEERING (5TH YEAR)"
+            title="SYSTEMS ENGINEERING"
             institution="U.T.N Facultad regional San Francisco"
-            year="2010 - Present"
+            year="2023"
             icon="graduation-cap"
           />
         </div>
