@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.ea67ffb4.css",
-    "main.js": "/static/js/main.ebdae2b3.js",
+    "main.js": "/static/js/main.8862cb4d.js",
     "static/js/787.943d1ce3.chunk.js": "/static/js/787.943d1ce3.chunk.js",
     "static/media/desktop-profile.jpg": "/static/media/desktop-profile.fe17c207eeb3a18f64b2.jpg",
     "static/media/gqhome.PNG": "/static/media/gqhome.a05e45362d6a6b741261.PNG",
@@ -44,11 +44,11 @@
     "static/media/terraformio-icon.svg": "/static/media/terraformio-icon.33b1dce5848f8692e1d0018c64ff6a37.svg",
     "static/media/gatsby.svg": "/static/media/gatsby.1930007f64b4babe3059f856e93dc05b.svg",
     "main.ea67ffb4.css.map": "/static/css/main.ea67ffb4.css.map",
-    "main.ebdae2b3.js.map": "/static/js/main.ebdae2b3.js.map",
+    "main.8862cb4d.js.map": "/static/js/main.8862cb4d.js.map",
     "787.943d1ce3.chunk.js.map": "/static/js/787.943d1ce3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ea67ffb4.css",
-    "static/js/main.ebdae2b3.js"
+    "static/js/main.8862cb4d.js"
   ]
 }
