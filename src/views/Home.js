@@ -145,17 +145,17 @@ export default function Home() {
           </section>
           <section className="bg-gradient-to-b from-zinc-900 to-zinc-700">
             <Siblings />
-            <Wave fromColor="#16a34a" toColor="#166534" animate={true} />
+            <Wave fromColor="#134e4a" toColor="#115e59" animate={true} />
           </section>
-          <section className="bg-gradient-to-b from-green-800 to-green-600">
+          <section className="bg-gradient-to-b from-teal-800 to-teal-600">
             <Greenqueen />
             <Wave fromColor="#ef4444" toColor="#b91c1c" animate={true} />
           </section>
           <section className="bg-gradient-to-b from-red-700 to-red-500">
             <FeedMeApp />
-            <Wave fromColor="#f1f5f9" toColor="#94a3b8" animate={true} />
+            <Wave fromColor="#1e293b" toColor="#334155" animate={true} />
           </section>
-          <section className="bg-gradient-to-b from-slate-400 to-slate-500">
+          <section className="bg-gradient-to-b from-slate-700 to-slate-400">
             <Ceibo />
             <Wave fromColor="#3b82f6" toColor="#2563eb" animate={true} />
           </section>
