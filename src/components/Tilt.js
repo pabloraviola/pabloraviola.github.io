@@ -10,7 +10,7 @@ const Tilt = (props) => {
 
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-      <path fill={color} fill-opacity="1" d={tiltDirection[direction]}></path>
+      <path fill={color} fillOpacity="1" d={tiltDirection[direction]}></path>
     </svg>
   );
 };

@@ -127,18 +127,18 @@ export default function Home() {
                 <Boop scale={1.08} rotation={10} timing={200}>
                   <Kubernettes className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
                 </Boop>
-                <Boop scale={1.08} rotation={10} timing={200}>
-                  <Terraform className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
-                </Boop>
+                {/* <Boop scale={1.08} rotation={10} timing={200}>
+                  <Terraform className="cursor-pointer w-5 h-5 sm:w-20 sm:h-20" />
+                </Boop> */}
                 <Boop scale={1.08} rotation={10} timing={200}>
                   <GraphQL className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
                 </Boop>
                 {/* <Boop scale={1.08} rotation={10} timing={200}>
                   <Gatsby className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
                 </Boop> */}
-                {/* <Boop scale={1.08} rotation={10} timing={200}>
+                <Boop scale={1.08} rotation={10} timing={200}>
                   <Next className="cursor-pointer w-10 h-10 sm:w-20 sm:h-20" />
-                </Boop> */}
+                </Boop>
               </div>
             </div>
             <Tilt color="#18181b" />
