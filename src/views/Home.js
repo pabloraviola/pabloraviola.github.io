@@ -11,6 +11,7 @@ import Greenqueen from "../components/Greenqueen";
 import Ceibo from "../components/Ceibo";
 import FeedMeApp from "../components/FeedMeApp";
 import Rentx from "../components/Rentx";
+import ChatApp from "../components/ChatApp";
 import Cencosud from "../components/Cencosud";
 import WhitePrompt from "../components/WhitePrompt";
 import Picture from "../assets/desktop-profile.jpg";
@@ -161,6 +162,10 @@ export default function Home() {
           </section>
           <section className="bg-gradient-to-b from-blue-600 to-blue-800">
             <Rentx />
+            <Wave fromColor="#4f46e5" toColor="#4338ca" animate={true} />
+          </section>
+          <section className="bg-gradient-to-b from-indigo-700 to-indigo-900">
+            <ChatApp />
             <Wave fromColor="#1e40af" toColor="#1e3a8a" animate={true} />
           </section>
           <section className="bg-gradient-to-b from-blue-900 to-blue-600">
