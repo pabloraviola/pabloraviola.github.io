@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.9a74ad7b.css",
-    "main.js": "/static/js/main.b5fd34f9.js",
+    "main.css": "/static/css/main.0a2c4d2d.css",
+    "main.js": "/static/js/main.e028fc69.js",
     "static/js/787.943d1ce3.chunk.js": "/static/js/787.943d1ce3.chunk.js",
     "static/media/desktop-profile.jpg": "/static/media/desktop-profile.fe17c207eeb3a18f64b2.jpg",
     "static/media/gqhome.PNG": "/static/media/gqhome.a05e45362d6a6b741261.PNG",
@@ -20,11 +20,15 @@
     "static/media/complaints2.PNG": "/static/media/complaints2.ac0f805259e6a7a90e36.PNG",
     "static/media/gqproducts.PNG": "/static/media/gqproducts.f433485153bcbd092a1b.PNG",
     "static/media/features2.PNG": "/static/media/features2.4cd177742015dec9f207.PNG",
+    "static/media/chat-chatroom-3.png": "/static/media/chat-chatroom-3.26267449ccb615a658a7.png",
     "static/media/home2.PNG": "/static/media/home2.1fc32e7d5b4b5c0e68c3.PNG",
     "static/media/home.PNG": "/static/media/home.cd28e0afce1eeaf498c5.PNG",
     "static/media/login.PNG": "/static/media/login.6b51457ff203f924ed7d.PNG",
+    "static/media/chat-chatroom-2.png": "/static/media/chat-chatroom-2.e808b2ac9ec0890e4f35.png",
     "static/media/request.PNG": "/static/media/request.0d9aa7fe885a7e58a57f.PNG",
     "static/media/complaints.PNG": "/static/media/complaints.d3fde36532070e4ab17d.PNG",
+    "static/media/chat-onboarding-screen.png": "/static/media/chat-onboarding-screen.66a31bf049d460b90a5e.png",
+    "static/media/chat-chatroom-1.png": "/static/media/chat-chatroom-1.c03a240656ca3f1bb67a.png",
     "static/media/cae.pdf": "/static/media/cae.b16b56b5847e5baaef65.pdf",
     "static/media/fce.pdf": "/static/media/fce.c9c14d42ca555e741470.pdf",
     "static/media/gqfeatures.PNG": "/static/media/gqfeatures.27c190ca3db3a6c0151b.PNG",
@@ -43,12 +47,12 @@
     "index.html": "/index.html",
     "static/media/terraformio-icon.svg": "/static/media/terraformio-icon.33b1dce5848f8692e1d0018c64ff6a37.svg",
     "static/media/gatsby.svg": "/static/media/gatsby.1930007f64b4babe3059f856e93dc05b.svg",
-    "main.9a74ad7b.css.map": "/static/css/main.9a74ad7b.css.map",
-    "main.b5fd34f9.js.map": "/static/js/main.b5fd34f9.js.map",
+    "main.0a2c4d2d.css.map": "/static/css/main.0a2c4d2d.css.map",
+    "main.e028fc69.js.map": "/static/js/main.e028fc69.js.map",
     "787.943d1ce3.chunk.js.map": "/static/js/787.943d1ce3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9a74ad7b.css",
-    "static/js/main.b5fd34f9.js"
+    "static/css/main.0a2c4d2d.css",
+    "static/js/main.e028fc69.js"
   ]
 }
