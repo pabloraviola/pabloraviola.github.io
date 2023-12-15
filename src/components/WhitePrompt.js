@@ -8,7 +8,7 @@ export default function WhitePrompt() {
       <Logo className="w-full" />
       <p style={{ fontFamily: "Poppins" }}>
         I am currently working as a Software Engineer in WhitePrompt, where I
-        can contribute in a variaty of challenging projects that help me to
+        can contribute in a variety of challenging projects that help me to
         improve my skills on a daily basis.
       </p>
       <p>Some of those projects are:</p>
