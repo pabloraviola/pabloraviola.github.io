@@ -1,6 +1,6 @@
 import React from "react";
-import Blob from "./Blob";
 import Boop from "./animations/Boop";
+import resume from "../assets/resume.pdf";
 
 export default function PersonalInfo() {
   return (
@@ -105,6 +105,18 @@ export default function PersonalInfo() {
             <p className="text-sm">San francisco, CBA - ARG</p>
           </div>
         </div>
+      </div>
+      <div className="flex items-center justify-center cursor-pointer text-white hover:text-emerald-600 transition ease-in-out">
+        <a
+          href={resume}
+          target="_blank"
+          className="flex items-center space-x-2"
+        >
+          <p style={{ fontFamily: "Poppins" }} className="font-bold">
+            Resume
+          </p>
+          <i class="fas fa-file-download"></i>
+        </a>
       </div>
     </>
   );

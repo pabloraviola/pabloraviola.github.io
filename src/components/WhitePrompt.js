@@ -55,6 +55,18 @@ export default function WhitePrompt() {
           Algolia, Contentful, Django.
         </p>
       </div>
+      <div className="flex space-x-5">
+        <Boop rotation={10}>
+          <i
+            className={`far fa-building text-2xl md:text-2xl text-cyan-500 mt-1`}
+          ></i>
+        </Boop>
+        <p>
+          Lease platform where renters, tenants and owners can interact with one
+          another in a secure, transparent and efficient way. Technologies:
+          React, Next, Tailwind, GraphQL, Node, Nest, Prisma, PostgreSQL.
+        </p>
+      </div>
     </div>
   );
 }

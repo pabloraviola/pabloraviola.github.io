@@ -18,9 +18,7 @@ import Picture from "../assets/desktop-profile.jpg";
 import Boop from "../components/animations/Boop";
 import { ReactComponent as Kubernettes } from "../assets/kubernettes-logo.svg";
 import { ReactComponent as Tailwind } from "../assets/tailwind-logo.svg";
-import { ReactComponent as Terraform } from "../assets/terraformio-icon.svg";
 import { ReactComponent as GraphQL } from "../assets/graphql.svg";
-import { ReactComponent as Gatsby } from "../assets/gatsby.svg";
 import { ReactComponent as Next } from "../assets/nextjs.svg";
 
 export default function Home() {
@@ -59,7 +57,7 @@ export default function Home() {
           }}
         >
           <div
-            className="flex flex-col rounded-full w-64 h-96 shadow-2xl bg-gradient-to-b from-zinc-900 to-zinc-600 justify-center relative z-10 hover:scale-105 hover:cursor-pointer transition ease-in-out"
+            className="flex flex-col rounded-full w-64 h-[26rem] shadow-2xl bg-gradient-to-b from-zinc-900 to-zinc-600 justify-center relative z-10 hover:scale-105 hover:cursor-pointer transition ease-in-out"
             style={{ top: "20%", left: "75%" }}
           >
             <Boop scale={1.02}>
@@ -70,7 +68,7 @@ export default function Home() {
             size="medium"
             color="#383231"
             opacity="0.4"
-            class="left-1/2 top-32"
+            class="left-96 top-52"
           />
         </div>
         <div className="w-full lg:w-8/12 h-full">
