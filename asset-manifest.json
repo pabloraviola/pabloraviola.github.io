@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.201afd62.css",
-    "main.js": "/static/js/main.ff70d857.js",
+    "main.js": "/static/js/main.aa51e874.js",
     "static/js/787.943d1ce3.chunk.js": "/static/js/787.943d1ce3.chunk.js",
     "static/media/desktop-profile.jpg": "/static/media/desktop-profile.fe17c207eeb3a18f64b2.jpg",
     "static/media/gqhome.PNG": "/static/media/gqhome.a05e45362d6a6b741261.PNG",
@@ -31,10 +31,10 @@
     "static/media/chat-chatroom-1.png": "/static/media/chat-chatroom-1.c03a240656ca3f1bb67a.png",
     "static/media/cae.pdf": "/static/media/cae.b16b56b5847e5baaef65.pdf",
     "static/media/fce.pdf": "/static/media/fce.c9c14d42ca555e741470.pdf",
-    "static/media/resume.pdf": "/static/media/resume.084cf85019499e75c1d4.pdf",
     "static/media/gqfeatures.PNG": "/static/media/gqfeatures.27c190ca3db3a6c0151b.PNG",
     "static/media/ceibologin.PNG": "/static/media/ceibologin.85abdec5e8b2a3355847.PNG",
     "static/media/logo.png": "/static/media/logo.fe4be4713a0ed7a7d5dd.png",
+    "static/media/resume.pdf": "/static/media/resume.7bc6cfab629cafc34ba5.pdf",
     "static/media/fdacrud.PNG": "/static/media/fdacrud.727cac1c4177b5fe615c.PNG",
     "static/media/logo.svg": "/static/media/logo.36bc9962443ecc7ae775ebe45ee00fef.svg",
     "static/media/gqlogo.svg": "/static/media/gqlogo.7c915f89c4a4c7b8dae7d02e84775a37.svg",
@@ -47,11 +47,11 @@
     "static/media/tailwind-logo.svg": "/static/media/tailwind-logo.50fbcf516b9a3774e9a83272167059ae.svg",
     "index.html": "/index.html",
     "main.201afd62.css.map": "/static/css/main.201afd62.css.map",
-    "main.ff70d857.js.map": "/static/js/main.ff70d857.js.map",
+    "main.aa51e874.js.map": "/static/js/main.aa51e874.js.map",
     "787.943d1ce3.chunk.js.map": "/static/js/787.943d1ce3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.201afd62.css",
-    "static/js/main.ff70d857.js"
+    "static/js/main.aa51e874.js"
   ]
 }
