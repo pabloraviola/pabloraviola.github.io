@@ -1,9 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.201afd62.css",
-    "main.js": "/static/js/main.aa51e874.js",
+    "main.js": "/static/js/main.244c3334.js",
     "static/js/787.943d1ce3.chunk.js": "/static/js/787.943d1ce3.chunk.js",
-    "static/media/desktop-profile.jpg": "/static/media/desktop-profile.fe17c207eeb3a18f64b2.jpg",
     "static/media/gqhome.PNG": "/static/media/gqhome.a05e45362d6a6b741261.PNG",
     "static/media/sibhome.PNG": "/static/media/sibhome.b7ddb6b8d998308c63c0.PNG",
     "static/media/fdalogin.PNG": "/static/media/fdalogin.9d42c65baa449beac90a.PNG",
@@ -14,6 +13,7 @@
     "static/media/picture.jpeg": "/static/media/picture.1c0bce2dd551455fcb56.jpeg",
     "static/media/sibstore.PNG": "/static/media/sibstore.48fb9c5ee0b3f8d432e3.PNG",
     "static/media/properties.PNG": "/static/media/properties.ce0e63b2a7a78ccb5eb6.PNG",
+    "static/media/desktop-profile.jpg": "/static/media/desktop-profile.664a17e02f0ca4b300f5.jpg",
     "static/media/gqadmin.PNG": "/static/media/gqadmin.d693a646f61f7c9e1830.PNG",
     "static/media/features.PNG": "/static/media/features.1d7c8fa9d191e5e542f8.PNG",
     "static/media/gqcategories.PNG": "/static/media/gqcategories.b132cbee57a73dbc2299.PNG",
@@ -47,11 +47,11 @@
     "static/media/tailwind-logo.svg": "/static/media/tailwind-logo.50fbcf516b9a3774e9a83272167059ae.svg",
     "index.html": "/index.html",
     "main.201afd62.css.map": "/static/css/main.201afd62.css.map",
-    "main.aa51e874.js.map": "/static/js/main.aa51e874.js.map",
+    "main.244c3334.js.map": "/static/js/main.244c3334.js.map",
     "787.943d1ce3.chunk.js.map": "/static/js/787.943d1ce3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.201afd62.css",
-    "static/js/main.aa51e874.js"
+    "static/js/main.244c3334.js"
   ]
 }
