@@ -108,7 +108,7 @@ export default function PersonalInfo() {
       </div>
       <div className="flex items-center justify-center cursor-pointer text-white hover:text-emerald-600 transition ease-in-out">
         <a
-          href={resume}
+          href={`https://resume.io/r/v4cH6A1Oa`}
           target="_blank"
           className="flex items-center space-x-2"
         >
