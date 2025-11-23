@@ -3,6 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import MacbookModel from "../3d/MacbookModel";
 import Particles from "../3d/Particles";
 import { TextFlameDefs, LineGlowStyles } from "../../animations/Flame";
+import { Environment } from "@react-three/drei";
 
 const Hero = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -302,7 +303,7 @@ const Hero = () => {
             floatRotate={floatRotate}
           />
 
-          {/* <Environment preset="dawn" /> */}
+          <Environment preset="night" />
         </Suspense>
       </Canvas>
     </div>
