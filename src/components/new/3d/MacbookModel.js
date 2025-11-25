@@ -1,6 +1,7 @@
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useEffect, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, useAnimations } from "@react-three/drei";
+import * as THREE from "three";
 
 const MacbookModel = ({
   scrollY,
@@ -14,6 +15,7 @@ const MacbookModel = ({
   );
 
   const modelRef = useRef();
+  const [videoTexture, setVideoTexture] = useState(null);
 
   // Clone scene to avoid conflicts
   const clonedScene = useMemo(() => {
@@ -22,6 +24,49 @@ const MacbookModel = ({
   }, [scene, materials]);
 
   const { actions, mixer } = useAnimations(animations, clonedScene);
+
+  // Set up video texture
+  useEffect(() => {
+    const video = document.createElement("video");
+    video.src = "/code-coding.mp4";
+    video.loop = true;
+    video.muted = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.crossOrigin = "anonymous";
+
+    // Handle video loading
+    const handleCanPlay = () => {
+      const texture = new THREE.VideoTexture(video);
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.flipY = true;
+      setVideoTexture(texture);
+    };
+
+    video.addEventListener("canplay", handleCanPlay);
+
+    // Start loading and playing
+    video.load();
+    video.play().catch(console.error);
+
+    return () => {
+      video.removeEventListener("canplay", handleCanPlay);
+      video.pause();
+      video.src = "";
+      if (videoTexture) {
+        videoTexture.dispose();
+      }
+    };
+  }, []);
+
+  // Apply video texture to screen material
+  useEffect(() => {
+    if (videoTexture && materials && materials["Material.002"]) {
+      materials["Material.002"].map = videoTexture;
+      materials["Material.002"].needsUpdate = true;
+    }
+  }, [videoTexture, materials]);
 
   // Set up animation action
   useEffect(() => {

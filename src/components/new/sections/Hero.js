@@ -5,7 +5,7 @@ import Particles from "../3d/Particles";
 import { TextFlameDefs, LineGlowStyles } from "../../animations/Flame";
 import { Environment } from "@react-three/drei";
 
-const Hero = () => {
+const Hero = ({ onScrollToNext }) => {
   const [scrollY, setScrollY] = useState(0);
   const [displayRotation, setDisplayRotation] = useState(0);
   const [lineRotation, setLineRotation] = useState(0);
@@ -29,10 +29,17 @@ const Hero = () => {
   useEffect(() => {
     const handleWheel = (e) => {
       e.preventDefault();
-      targetScrollRef.current = Math.max(
-        0,
-        Math.min(2000, targetScrollRef.current + e.deltaY * 0.3)
-      );
+      const newTarget = targetScrollRef.current + e.deltaY * 0.3;
+
+      if (newTarget > 2000 && targetScrollRef.current === 2000) {
+        // We've reached max scroll and user is still scrolling down
+        if (onScrollToNext) {
+          onScrollToNext();
+        }
+        return;
+      }
+
+      targetScrollRef.current = Math.max(0, Math.min(2000, newTarget));
     };
 
     // Smooth animation loop
@@ -302,9 +309,8 @@ const Hero = () => {
             floatX={floatX}
             floatRotate={floatRotate}
           />
-
-          <Environment preset="night" />
         </Suspense>
+        {/* <Environment preset="night" /> */}
       </Canvas>
     </div>
   );

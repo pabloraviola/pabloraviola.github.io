@@ -1,0 +1,11 @@
+Model Information:
+* title:	Logitech MX Keys
+* source:	https://sketchfab.com/3d-models/logitech-mx-keys-67901d82781f48349f1f61ce78a6b6e0
+* author:	ArkinRS (https://sketchfab.com/ArkinRS)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Logitech MX Keys" (https://sketchfab.com/3d-models/logitech-mx-keys-67901d82781f48349f1f61ce78a6b6e0) by ArkinRS (https://sketchfab.com/ArkinRS) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
