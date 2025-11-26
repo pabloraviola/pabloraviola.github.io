@@ -57,7 +57,7 @@ const New = () => {
   }, []);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <div ref={heroSectionRef}>
         <Hero onScrollToNext={scrollToNextSection} />
       </div>

@@ -9,24 +9,31 @@ import Mouse from "../3d/Mouse";
 import Monitor from "../3d/Monitor";
 import { Environment } from "@react-three/drei";
 
-function Floor(props) {
-  const [ref] = usePlane(() => ({ type: "Static", ...props }));
-  return (
-    <mesh ref={ref}>
-      <planeGeometry args={[100, 100]} />
-      <meshBasicMaterial transparent opacity={0} />
-    </mesh>
-  );
-}
-
 const AboutAndContact = ({ onScrollToPrev, showGuy }) => {
   const [floatTime, setFloatTime] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const aboutMeRef = useRef(null);
   const startTimeRef = useRef(Date.now());
   const animationFrameRef = useRef();
-  const lastMouseUpdateRef = useRef(0);
+  const [isDeckHovered, setIsDeckHovered] = useState(false);
+
+  const cards = [
+    {
+      title: "About Me",
+      description:
+        "I'm a fullstack web developer and a systems engineer from San Francisco, Córdoba - ARG. I'm building my career as a developer learning as much as I can about the new technologies that come across. I consider myself as a proactive person who's always willing to take new challenges in order to improve his skills. On my spare time, I like listening to music and playing drums, I also love travelling whenever I have the chance, whether it is going on a short trip or taking a journey abroad for a couple of months.",
+    },
+    {
+      title: "Contact",
+      description:
+        "If you want to get in touch with me, you can do so by sending an email to contact@juanfranco.com.ar. You can also find me on LinkedIn, GitHub and Instagram.",
+    },
+    {
+      title: "Projects",
+      description:
+        "I'm a fullstack web developer and a systems engineer from San Francisco, Córdoba - ARG. I'm building my career as a developer learning as much as I can about the new technologies that come across. I consider myself as a proactive person who's always willing to take new challenges in order to improve his skills. On my spare time, I like listening to music and playing drums, I also love travelling whenever I have the chance, whether it is going on a short trip or taking a journey abroad for a couple of months.",
+    },
+  ];
+
+  const [activeCard, setActiveCard] = useState(cards[0]);
 
   useEffect(() => {
     const handleWheel = (e) => {
@@ -37,30 +44,6 @@ const AboutAndContact = ({ onScrollToPrev, showGuy }) => {
       }
     };
 
-    const handleMouseMove = (e) => {
-      const now = Date.now();
-      if (now - lastMouseUpdateRef.current < 16) return; // Throttle to ~60fps
-      lastMouseUpdateRef.current = now;
-
-      if (aboutMeRef.current && isHovering) {
-        const rect = aboutMeRef.current.getBoundingClientRect();
-
-        // Calculate relative position within the panel (0 to 1 range)
-        const relativeX = (e.clientX - rect.left) / rect.width;
-        const relativeY = (e.clientY - rect.top) / rect.height;
-
-        // Convert to -1 to 1 range for tilt calculation
-        const mouseX = (relativeX - 0.5) * 2;
-        const mouseY = (relativeY - 0.5) * 2;
-
-        // Clamp to ensure we stay within bounds
-        const clampedX = Math.max(-1, Math.min(1, mouseX));
-        const clampedY = Math.max(-1, Math.min(1, mouseY));
-
-        setMousePosition({ x: clampedX, y: clampedY });
-      }
-    };
-
     const animate = () => {
       const elapsed = (Date.now() - startTimeRef.current) / 1000;
       setFloatTime(elapsed);
@@ -68,29 +51,18 @@ const AboutAndContact = ({ onScrollToPrev, showGuy }) => {
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("mousemove", handleMouseMove);
     animationFrameRef.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("mousemove", handleMouseMove);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [onScrollToPrev, isHovering]);
+  }, [onScrollToPrev]);
 
   const floatY = Math.sin(floatTime * 0.8) * 15;
   const floatX = Math.cos(floatTime * 0.6) * 10;
-
-  // Calculate panel transforms
-  const panelFloatY = Math.sin(floatTime * 0.5) * 10;
-  const panelFloatX = Math.cos(floatTime * 0.3) * 5;
-  // For natural "pressure" effect, panel should tilt AWAY from cursor
-  // rotateX: positive = tilt backward (top edge goes back), negative = tilt forward
-  // rotateY: positive = tilt left (left edge goes back), negative = tilt right
-  const tiltX = isHovering ? mousePosition.y * 15 : 0; // Cursor down = positive Y = tilt backward
-  const tiltY = isHovering ? mousePosition.x * 15 : 0; // Cursor right = positive X = tilt left
 
   return (
     <div
@@ -124,7 +96,6 @@ const AboutAndContact = ({ onScrollToPrev, showGuy }) => {
           <Physics allowSleep={false} iterations={15} gravity={[0, 0, 0]}>
             <Cursor />
             {showGuy && <Guy rotation={[0, 0.5, 0]} position={[-12, 0, -30]} />}
-            <Floor position={[0, -15, 0]} rotation={[-Math.PI / 2, 0, 0]} />
             <Keyboard
               rotation={[1, -2, 0.3]}
               position={[-1.5, -0.5, 0]}
@@ -153,71 +124,66 @@ const AboutAndContact = ({ onScrollToPrev, showGuy }) => {
         {/* <Environment preset="night" /> */}
       </Canvas>
 
-      {/* About Me Panel */}
       <div
-        ref={aboutMeRef}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => {
-          setIsHovering(false);
-        }}
-        style={{
-          position: "absolute",
-          right: "2%",
-          top: "50%",
-          transform: `translate(0%, -50%) translate(${panelFloatX}px, ${panelFloatY}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
-          width: "45vw",
-          padding: "40px 50px",
-          background: "rgba(15, 20, 25, 0.85)",
-          backdropFilter: "blur(10px)",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          borderRadius: "25px",
-          color: "#ffffff",
-          zIndex: 15,
-          cursor: "pointer",
-          transition: "box-shadow 0.3s ease, color 0.3s ease",
-          transformStyle: "preserve-3d",
-          boxShadow: isHovering
-            ? "0 30px 80px rgba(14, 165, 233, 0.4), 0 0 50px rgba(255, 255, 255, 0.15)"
-            : "0 20px 50px rgba(0, 0, 0, 0.6)",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
+        className="absolute top-[15%] right-[10%] z-10 w-1/3 h-[600px] transition-all duration-300 ease-in-out hover:scale-105"
+        onMouseEnter={() => setIsDeckHovered(true)}
+        onMouseLeave={() => setIsDeckHovered(false)}
       >
-        <h2
-          style={{
-            fontSize: "3.5rem",
-            fontWeight: "bold",
-            fontStyle: "italic",
-            marginBottom: "40px",
-            color: isHovering ? "#0ea5e9" : "#ffffff",
-            fontFamily: "Fareno, system-ui, -apple-system, sans-serif",
-            textShadow: "0 0 20px rgba(14, 165, 233, 0.7)",
-            transition: "color 0.3s ease",
-            textAlign: "center",
-          }}
-        >
-          ABOUT ME
-        </h2>
-        <p
-          style={{
-            fontSize: "1.3rem",
-            lineHeight: "1.8",
-            color: "#d1d5db",
-            fontFamily: "Fareno, system-ui, sans-serif",
-            margin: 0,
-            textAlign: "justify",
-          }}
-        >
-          I'm a fullstack web developer and a systems engineer from San
-          Francisco, Córdoba - ARG. I'm building my career as a developer
-          learning as much as I can about the new technologies that come across.
-          I consider myself as a proactive person who's always willing to take
-          new challenges in order to improve his skills. On my spare time, I
-          like listening to music and playing drums, I also love travelling
-          whenever I have the chance, whether it is going on a short trip or
-          taking a journey abroad for a couple of months.
-        </p>
+        {cards.map((card, index) => {
+          const isActive = card.title === activeCard.title;
+          const rotation = isActive ? 0 : (index - 1) * 2;
+          const translateX = isActive ? 0 : index * 20;
+          const translateY = isActive ? 0 : index * 10;
+          const zIndex = isActive ? cards.length + 10 : cards.length - index;
+
+          const hoverTranslateX = isDeckHovered ? index * 50 : 0;
+
+          const hoverTranslateY = isDeckHovered ? index * 10 : 0;
+
+          const hoverRotation = isDeckHovered ? index * 2 : 0;
+
+          const handleCardClick = (card) => {
+            if (isActive) return;
+            setActiveCard(card);
+          };
+
+          return (
+            <div
+              id={`card-${index}`}
+              key={index}
+              className="bg-[#0f1419] bg-opacity-50 rounded-2xl p-10 absolute backdrop-blur-md flex flex-col gap-5 border border-white/10 shadow-lg shadow-white/10 h-full transition-all duration-150 ease-in-out hover:border-[#1e3a8a]  hover:bg-opacity-80 hover:cursor-pointer hover:shadow-blue-500/20"
+              onClick={() => handleCardClick(card)}
+              style={{
+                transform: `translate(${
+                  translateX + floatX + hoverTranslateX
+                }px, ${translateY + floatY + hoverTranslateY}px) rotate(${
+                  rotation + hoverRotation
+                }deg)`,
+                transformOrigin: "top left",
+                zIndex: zIndex,
+                top: 0,
+                left: 0,
+              }}
+            >
+              <h2
+                className="text-5xl font-extrabold italic text-white text-center text-shadow-xl text-shadow-[#0ea5e9]"
+                style={{
+                  fontFamily: "Fareno, system-ui, sans-serif",
+                }}
+              >
+                {card.title}
+              </h2>
+              <p
+                className="text-2xl text-gray-300"
+                style={{
+                  fontFamily: "Fareno, system-ui, sans-serif",
+                }}
+              >
+                {card.description}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
