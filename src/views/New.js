@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import Hero from "../components/new/sections/Hero";
-import AboutAndContact from "../components/new/sections/AboutAndContact";
+import About from "../components/new/sections/About/About";
 
 const New = () => {
   const heroSectionRef = useRef(null);
@@ -58,11 +58,17 @@ const New = () => {
 
   return (
     <div className="overflow-hidden">
+      <link
+        rel="stylesheet"
+        href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+        crossOrigin="anonymous"
+      />
       <div ref={heroSectionRef}>
         <Hero onScrollToNext={scrollToNextSection} />
       </div>
       <div ref={secondSectionRef}>
-        <AboutAndContact
+        <About
           onScrollToPrev={scrollToPrevSection}
           showGuy={hasReachedSecondSection}
         />
