@@ -1,0 +1,11 @@
+Model Information:
+* title:	Plant Pot
+* source:	https://sketchfab.com/3d-models/plant-pot-3522514a017e40bba11b4873c9e4b56d
+* author:	duchess (https://sketchfab.com/duchrsd)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Plant Pot" (https://sketchfab.com/3d-models/plant-pot-3522514a017e40bba11b4873c9e4b56d) by duchess (https://sketchfab.com/duchrsd) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)

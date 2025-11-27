@@ -1,11 +1,11 @@
 Model Information:
-* title:	Desk Low-Poly
-* source:	https://sketchfab.com/3d-models/desk-low-poly-ed62a64f51bf4d80a13e1344093c3909
-* author:	Pedro Silva (https://sketchfab.com/pxdrosilva)
+* title:	Sleek Modern Dining Table Set
+* source:	https://sketchfab.com/3d-models/sleek-modern-dining-table-set-9135349108174c8285433b3695977158
+* author:	Stars_001 (https://sketchfab.com/Stars_001)
 
 Model License:
 * license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
 * requirements:	Author must be credited. Commercial use is allowed.
 
 If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
-This work is based on "Desk Low-Poly" (https://sketchfab.com/3d-models/desk-low-poly-ed62a64f51bf4d80a13e1344093c3909) by Pedro Silva (https://sketchfab.com/pxdrosilva) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+This work is based on "Sleek Modern Dining Table Set" (https://sketchfab.com/3d-models/sleek-modern-dining-table-set-9135349108174c8285433b3695977158) by Stars_001 (https://sketchfab.com/Stars_001) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -9,7 +9,9 @@ import Mouse from "../../3d/Mouse";
 import Monitor from "../../3d/Monitor";
 import { Environment } from "@react-three/drei";
 import InformationCards from "./InformationCards";
-
+import Desktop from "../../3d/Desktop";
+import CoffeeMug from "../../3d/CoffeeMug";
+import Plant from "../../3d/Plant";
 const About = ({ onScrollToPrev, showGuy }) => {
   const [floatTime, setFloatTime] = useState(0);
   const startTimeRef = useRef(Date.now());
@@ -76,27 +78,46 @@ const About = ({ onScrollToPrev, showGuy }) => {
           <Physics allowSleep={false} iterations={15} gravity={[0, 0, 0]}>
             <Cursor />
             {showGuy && <Guy rotation={[0, 0.5, 0]} position={[-12, 0, -30]} />}
-            <Keyboard
-              rotation={[1, -2, 0.3]}
-              position={[-1.5, -0.5, 0]}
-              scale={[4, 5, 5]}
-              floatY={floatY}
-              floatX={floatX}
-            />
-            <Mouse
-              rotation={[1, -2, 0.4]}
-              position={[-1.5, -0.8, 3]}
-              scale={[3, 3, 3]}
-              floatY={floatY}
-              floatX={floatX}
-            />
-            <Monitor
-              rotation={[1, -2, 0.5]}
-              position={[-1, -0.8, 1]}
-              scale={[0.4, 0.4, 0.4]}
-              floatY={floatY}
-              floatX={floatX}
-            />
+            <group position={[0, 0.6, 0]}>
+              <Keyboard
+                rotation={[1, -2, 0.3]}
+                position={[-1.5, -0.8, 0.5]}
+                scale={[2.5, 3.5, 3.5]}
+                // floatY={floatY}
+                // floatX={floatX}
+              />
+              <Mouse
+                rotation={[1, -2, 0.4]}
+                position={[-1.3, -1.1, 3]}
+                scale={[2, 2, 2]}
+                // floatY={floatY}
+                floatX={Math.sin(floatX) * 0.3}
+              />
+              <Monitor
+                rotation={[1, -2, 0.5]}
+                position={[-1, -0.9, 1]}
+                scale={[0.3, 0.3, 0.3]}
+                // floatY={floatY}
+                // floatX={floatX}
+              />
+              <Plant
+                rotation={[0, 2, 0.5]}
+                position={[-0.9, -1.8, -0.8]}
+                scale={[3.5, 3.5, 3.5]}
+              />
+              <CoffeeMug
+                rotation={[0, 2, 0.5]}
+                position={[-1, -1.2, 2.5]}
+                scale={[0.0015, 0.0015, 0.0015]}
+              />
+              <Desktop
+                rotation={[1, -2, 0.5]}
+                position={[-3.5, -1, -1.5]}
+                scale={[0.9, 0.9, 1]}
+                // floatY={floatY}
+                // floatX={floatX}
+              />
+            </group>
           </Physics>
 
           <Particles scrollY={0} floatY={floatY} floatX={floatX} />

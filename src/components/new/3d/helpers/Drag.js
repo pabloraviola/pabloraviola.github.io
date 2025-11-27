@@ -24,7 +24,7 @@ function useDragConstraint(child) {
   return { onPointerUp, onPointerDown };
 }
 
-function Cursor() {
+const Cursor = () => {
   const [, api] = useSphere(
     () => ({ collisionFilterMask: 0, type: "Kinematic", mass: 0, args: [0.5] }),
     cursor
@@ -32,8 +32,8 @@ function Cursor() {
   return useFrame((state) => {
     const x = state.mouse.x * state.viewport.width;
     const y = (state.mouse.y * state.viewport.height) / 1.9 + -x / 3.5;
-    api.position.set(x / 1.4, y, -30);
+    api.position.set(x / 1.4, y, -25);
   });
-}
+};
 
 export { useDragConstraint, cursor, Cursor };
