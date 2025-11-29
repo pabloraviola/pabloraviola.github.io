@@ -64,6 +64,10 @@ const New = () => {
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
         crossOrigin="anonymous"
       />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+        rel="stylesheet"
+      ></link>
       <div ref={heroSectionRef}>
         <Hero onScrollToNext={scrollToNextSection} />
       </div>

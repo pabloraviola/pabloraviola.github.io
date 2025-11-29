@@ -78,7 +78,7 @@ const About = ({ onScrollToPrev, showGuy }) => {
           <Physics allowSleep={false} iterations={15} gravity={[0, 0, 0]}>
             <Cursor />
             {showGuy && <Guy rotation={[0, 0.5, 0]} position={[-12, 0, -30]} />}
-            <group position={[0, 0.6, 0]}>
+            <group position={[floatX * 0.003, 0.6 + floatY * 0.003, 0]}>
               <Keyboard
                 rotation={[1, -2, 0.3]}
                 position={[-1.5, -0.8, 0.5]}

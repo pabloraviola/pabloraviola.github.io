@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Boop from "../../../animations/Boop";
 
 export const ANIMATION_PHASE = {
   IDLE: "idle",
@@ -7,39 +8,78 @@ export const ANIMATION_PHASE = {
   MOVING_IN: "moving-in",
 };
 
+const InfoBox = ({ icon, text = "", link = "" }) => {
+  const handleClick = (e) => {
+    if (link) {
+      e.stopPropagation(); // Prevent card switching
+    }
+  };
+
+  const content = (
+    <div className="group flex flex-col gap-y-4 items-center justify-center p-4 rounded-xl border border-white/10 hover:border-[#1e3a8a] bg-white/5 hover:bg-white/10 transition-all duration-300 aspect-square w-full">
+      <i
+        className={`${icon} text-5xl text-white group-hover:text-[#1e3a8a] transition-colors duration-300`}
+      ></i>
+      <p className="text-xs text-white text-center transition-colors duration-300">
+        {text}
+      </p>
+    </div>
+  );
+
+  return (
+    <Boop scale={1.05} timing={150}>
+      {link ? (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={handleClick}
+        >
+          {content}
+        </a>
+      ) : (
+        <div onClick={handleClick}>{content}</div>
+      )}
+    </Boop>
+  );
+};
+
 const cards = [
   {
     title: "About Me",
     content:
-      "I'm a fullstack web developer and a systems engineer from San Francisco, Córdoba - ARG. I'm building my career as a developer learning as much as I can about the new technologies that come across. I consider myself as a proactive person who's always willing to take new challenges in order to improve his skills. On my spare time, I like listening to music and playing drums, I also love travelling whenever I have the chance, whether it is going on a short trip or taking a journey abroad for a couple of months.",
+      "I'm a full-stack web developer and systems engineer based in San Francisco, Córdoba, Argentina. I'm passionate about creating thoughtful, user-focused digital experiences and building reliable systems behind them. I like to keep up to date with the latest trends in web development and learning new technologies, exploring fresh ideas, and taking on challenges that help me become a better developer.",
   },
   {
     title: "Personal Info",
     content: (
-      <div className="hidden lg:flex lg:flex-col lg:p-4 lg:mt-3 lg:space-y-5">
-        <div className="flex items-center text-white space-x-2">
-          <i className="fas fa-envelope"></i>
-          <p className="text-sm">pablo.raviola@gmail.com</p>
-        </div>
-        <div className="flex items-center text-white space-x-2">
-          <i className="fas fa-birthday-cake"></i>
-          <p className="text-sm">30/04/1992</p>
-        </div>
-        <div className="flex items-center text-white space-x-2">
-          <i className="fas fa-phone"></i>
-          <p className="text-sm">+54 3564561315</p>
-        </div>
-        <div className="flex items-center text-white space-x-2">
-          <i className="fas fa-map-marker-alt"></i>
-          <p className="text-sm">San francisco, CBA - ARG</p>
-        </div>
+      <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:p-4 lg:mt-3">
+        <InfoBox icon="fas fa-envelope" text="pablo.raviola@gmail.com" />
+        <InfoBox icon="fas fa-birthday-cake" text="30/04/1992" />
+        <InfoBox icon="fas fa-phone" text="+54 3564561315" />
+        <InfoBox icon="fas fa-map-marker-alt" text="San francisco, CBA - ARG" />
       </div>
     ),
   },
   {
-    title: "Projects",
-    content:
-      "I'm a fullstack web developer and a systems engineer from San Francisco, Córdoba - ARG. I'm building my career as a developer learning as much as I can about the new technologies that come across. I consider myself as a proactive person who's always willing to take new challenges in order to improve his skills. On my spare time, I like listening to music and playing drums, I also love travelling whenever I have the chance, whether it is going on a short trip or taking a journey abroad for a couple of months.",
+    title: "Social",
+    content: (
+      <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:p-4 lg:mt-3">
+        <InfoBox
+          icon="fab fa-linkedin"
+          link="https://www.linkedin.com/in/pablo-raviola-9a833b164/"
+        />
+        <InfoBox icon="fab fa-github" link="https://github.com/pabloraviola" />
+        <InfoBox
+          icon="fab fa-instagram"
+          link="https://www.instagram.com/pabloraviola/"
+        />
+        <InfoBox
+          icon="fab fa-facebook"
+          link="https://www.facebook.com/pablo.raviola/"
+        />
+      </div>
+    ),
   },
 ];
 
@@ -50,11 +90,44 @@ const InformationCards = ({ floatX = 0, floatY = 0 }) => {
   const [animatingCard, setAnimatingCard] = useState(null);
   const [animationPhase, setAnimationPhase] = useState(ANIMATION_PHASE.IDLE);
 
+  const handleDeckClick = () => {
+    if (animationPhase !== ANIMATION_PHASE.IDLE) return;
+
+    const currentIndex = cards.findIndex((c) => c.title === activeCard.title);
+    const nextIndex = (currentIndex + 1) % cards.length;
+
+    // Phase 1: Move current active card to the side
+    setAnimatingCard(activeCard.title);
+    setAnimationPhase(ANIMATION_PHASE.MOVING_OUT);
+
+    // Phase 2: Start moving-in early with heavy overlap for seamless flow
+    setTimeout(() => {
+      setActiveCard(cards[nextIndex]);
+      setAnimationPhase(ANIMATION_PHASE.MOVING_IN);
+
+      setCardOrder((prev) => {
+        const newOrder = [...prev];
+        newOrder.splice(newOrder.indexOf(nextIndex), 1);
+        newOrder.unshift(nextIndex);
+        newOrder.splice(newOrder.indexOf(currentIndex), 1);
+        newOrder.push(currentIndex);
+        return newOrder;
+      });
+
+      // Phase 3: Reset animation state after slide-in
+      setTimeout(() => {
+        setAnimatingCard(null);
+        setAnimationPhase(ANIMATION_PHASE.IDLE);
+      }, 200);
+    }, 150);
+  };
+
   return (
     <div
-      className="absolute top-0 left-0 w-full h-full"
+      className="absolute top-0 left-0 w-full h-full cursor-pointer"
       onMouseEnter={() => setIsDeckHovered(true)}
       onMouseLeave={() => setIsDeckHovered(false)}
+      onClick={handleDeckClick}
     >
       <AnimatePresence mode="popLayout">
         {cardOrder.map((originalIndex, stackPosition) => {
@@ -92,50 +165,12 @@ const InformationCards = ({ floatX = 0, floatY = 0 }) => {
             };
           };
 
-          const handleCardClick = (clickedCard) => {
-            if (animationPhase !== ANIMATION_PHASE.IDLE) return;
-
-            const oldActiveIndex = cards.findIndex(
-              (c) => c.title === activeCard.title
-            );
-            // if clicked already active card, move to the next one
-            const newActiveIndex = isActive
-              ? (oldActiveIndex + 1) % cards.length
-              : cards.findIndex((c) => c?.title === clickedCard?.title);
-
-            // Phase 1: Move current active card to the side
-            setAnimatingCard(activeCard.title);
-            setAnimationPhase(ANIMATION_PHASE.MOVING_OUT);
-
-            // Phase 2: Start moving-in early with heavy overlap for seamless flow
-            setTimeout(() => {
-              setActiveCard(cards[newActiveIndex]);
-              setAnimationPhase(ANIMATION_PHASE.MOVING_IN);
-
-              setCardOrder((prev) => {
-                const newOrder = [...prev];
-                newOrder.splice(newOrder.indexOf(newActiveIndex), 1);
-                newOrder.unshift(newActiveIndex);
-                newOrder.splice(newOrder.indexOf(oldActiveIndex), 1);
-                newOrder.push(oldActiveIndex);
-                return newOrder;
-              });
-
-              // Phase 3: Reset animation state after slide-in
-              setTimeout(() => {
-                setAnimatingCard(null);
-                setAnimationPhase(ANIMATION_PHASE.IDLE);
-              }, 200);
-            }, 150);
-          };
-
           const transform = getCardTransform();
 
           return (
             <motion.div
               key={card.title}
-              className="bg-[#0f1419] bg-opacity-50 rounded-2xl p-10 absolute backdrop-blur-md flex flex-col gap-5 border border-white/10 shadow-lg shadow-white/10 h-full w-full hover:border-[#1e3a8a] hover:bg-opacity-80 hover:cursor-pointer hover:shadow-blue-500/20 select-none"
-              onClick={() => handleCardClick(card)}
+              className="bg-[#0f1419] bg-opacity-50 rounded-2xl p-10 absolute backdrop-blur-md flex flex-col gap-5 border border-white/10 shadow-lg shadow-white/10 h-full w-full hover:border-[#1e3a8a] hover:bg-opacity-80 hover:shadow-blue-500/20 select-none"
               animate={transform}
               transition={{
                 type: "spring",
@@ -159,9 +194,9 @@ const InformationCards = ({ floatX = 0, floatY = 0 }) => {
               </motion.h2>
               <motion.p
                 className="text-2xl text-gray-300"
-                style={{ fontFamily: "Fareno, system-ui, sans-serif" }}
                 animate={{ opacity: isActive && !isAnimating ? 1 : 0.6 }}
                 transition={{ duration: 0.3 }}
+                style={{ fontFamily: "Poppins" }}
               >
                 {card.content}
               </motion.p>
