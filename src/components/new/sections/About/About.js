@@ -1,28 +1,59 @@
-import React, { Suspense, useState, useEffect, useRef, useMemo } from "react";
+import React, { Suspense, useState, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Physics, usePlane, useBox } from "@react-three/cannon";
+import { Physics } from "@react-three/cannon";
 import Particles from "../../3d/Particles";
 import { Guy } from "../../3d/Guy";
 import { Cursor } from "../../3d/helpers/Drag";
 import Keyboard from "../../3d/Keyboard";
 import Mouse from "../../3d/Mouse";
 import Monitor from "../../3d/Monitor";
-import { Environment } from "@react-three/drei";
 import InformationCards from "./InformationCards";
 import Desktop from "../../3d/Desktop";
 import CoffeeMug from "../../3d/CoffeeMug";
 import Plant from "../../3d/Plant";
-const About = ({ onScrollToPrev, showGuy }) => {
+const About = ({
+  onScrollToPrev,
+  onScrollToNext,
+  showGuy,
+  isActive = true,
+}) => {
   const [floatTime, setFloatTime] = useState(0);
   const startTimeRef = useRef(Date.now());
   const animationFrameRef = useRef();
+  const containerRef = useRef(null);
+  const scrollBufferRef = useRef({ up: 0, down: 0 });
 
   useEffect(() => {
+    if (!isActive) {
+      scrollBufferRef.current = { up: 0, down: 0 };
+      return;
+    }
+
     const handleWheel = (e) => {
-      if (e.deltaY < 0 && onScrollToPrev) {
-        // Scrolling up - go back to previous section
-        e.preventDefault();
-        onScrollToPrev();
+      e.preventDefault();
+      e.stopPropagation();
+
+      const delta = e.deltaY;
+      const threshold = 150; // Accumulated scroll needed to trigger navigation
+
+      if (delta < 0) {
+        // Scrolling up
+        scrollBufferRef.current.up += Math.abs(delta);
+        scrollBufferRef.current.down = 0; // Reset opposite direction
+
+        if (scrollBufferRef.current.up > threshold && onScrollToPrev) {
+          onScrollToPrev();
+          scrollBufferRef.current.up = 0;
+        }
+      } else if (delta > 0) {
+        // Scrolling down
+        scrollBufferRef.current.down += Math.abs(delta);
+        scrollBufferRef.current.up = 0; // Reset opposite direction
+
+        if (scrollBufferRef.current.down > threshold && onScrollToNext) {
+          onScrollToNext();
+          scrollBufferRef.current.down = 0;
+        }
       }
     };
 
@@ -32,22 +63,28 @@ const About = ({ onScrollToPrev, showGuy }) => {
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
-    window.addEventListener("wheel", handleWheel, { passive: false });
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("wheel", handleWheel, { passive: false });
+    }
     animationFrameRef.current = requestAnimationFrame(animate);
 
     return () => {
-      window.removeEventListener("wheel", handleWheel);
+      if (container) {
+        container.removeEventListener("wheel", handleWheel);
+      }
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [onScrollToPrev]);
+  }, [onScrollToPrev, onScrollToNext, isActive]);
 
   const floatY = Math.sin(floatTime * 0.8) * 15;
   const floatX = Math.cos(floatTime * 0.6) * 10;
 
   return (
     <div
+      ref={containerRef}
       className="h-screen"
       style={{
         background:
@@ -122,7 +159,6 @@ const About = ({ onScrollToPrev, showGuy }) => {
 
           <Particles scrollY={0} floatY={floatY} floatX={floatX} />
         </Suspense>
-        {/* <Environment preset="night" /> */}
       </Canvas>
 
       <div className="absolute top-[15%] right-[10%] z-10 w-1/4 h-[650px] transition-all duration-300 ease-in-out hover:scale-105">

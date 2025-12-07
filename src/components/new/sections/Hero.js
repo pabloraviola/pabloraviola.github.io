@@ -3,9 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import MacbookModel from "../3d/MacbookModel";
 import Particles from "../3d/Particles";
 import { TextFlameDefs, LineGlowStyles } from "../../animations/Flame";
-import { Environment } from "@react-three/drei";
 
-const Hero = ({ onScrollToNext }) => {
+const Hero = ({ onScrollToNext, isActive = true }) => {
   const [scrollY, setScrollY] = useState(0);
   const [displayRotation, setDisplayRotation] = useState(0);
   const [lineRotation, setLineRotation] = useState(0);
@@ -13,6 +12,7 @@ const Hero = ({ onScrollToNext }) => {
   const animationFrameRef = useRef();
   const targetScrollRef = useRef(0);
   const startTimeRef = useRef(Date.now());
+  const containerRef = useRef(null);
   const [viewport, setViewport] = useState({
     w: typeof window !== "undefined" ? window.innerWidth : 1200,
     h: typeof window !== "undefined" ? window.innerHeight : 800,
@@ -27,16 +27,23 @@ const Hero = ({ onScrollToNext }) => {
   }, []);
 
   useEffect(() => {
+    if (!isActive) return;
+
     const handleWheel = (e) => {
       e.preventDefault();
+      e.stopPropagation();
+
       const newTarget = targetScrollRef.current + e.deltaY * 0.3;
 
-      if (newTarget > 2000 && targetScrollRef.current === 2000) {
-        // We've reached max scroll and user is still scrolling down
-        if (onScrollToNext) {
-          onScrollToNext();
+      if (newTarget > 2000) {
+        // Check if we're already at max scroll
+        if (targetScrollRef.current >= 1990) {
+          // We've reached max scroll and user is still scrolling down
+          if (onScrollToNext) {
+            onScrollToNext();
+          }
+          return;
         }
-        return;
       }
 
       targetScrollRef.current = Math.max(0, Math.min(2000, newTarget));
@@ -67,16 +74,21 @@ const Hero = ({ onScrollToNext }) => {
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
-    window.addEventListener("wheel", handleWheel, { passive: false });
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("wheel", handleWheel, { passive: false });
+    }
     animationFrameRef.current = requestAnimationFrame(animate);
 
     return () => {
-      window.removeEventListener("wheel", handleWheel);
+      if (container) {
+        container.removeEventListener("wheel", handleWheel);
+      }
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, []);
+  }, [isActive, onScrollToNext]);
 
   // Calculate rotation for text (clockwise)
   const textRotation = displayRotation;
@@ -98,6 +110,7 @@ const Hero = ({ onScrollToNext }) => {
 
   return (
     <div
+      ref={containerRef}
       style={{
         width: "100vw",
         height: "100vh",
@@ -310,7 +323,6 @@ const Hero = ({ onScrollToNext }) => {
             floatRotate={floatRotate}
           />
         </Suspense>
-        {/* <Environment preset="night" /> */}
       </Canvas>
     </div>
   );
