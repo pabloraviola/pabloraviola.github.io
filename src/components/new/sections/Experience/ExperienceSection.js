@@ -1,8 +1,82 @@
 import React, { Suspense, useRef, useState, useEffect, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Text, Line, PerspectiveCamera } from "@react-three/drei";
+import { Text, Line, PerspectiveCamera, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import Particles from "../../3d/Particles";
+
+// Color overrides for specific logos
+const logoColorOverrides = {
+  "vue.glb": ["#42b883", "#35495e"], // Vue.js brand colors (green, dark blue)
+  "aws.glb": ["#FF9900", "white"], // AWS brand colors (orange, white)
+  "docker.glb": ["#1D63ED"], // Docker brand colors (blue)
+};
+
+// 3D Logo component - loads a GLB model, normalizes size, and spins it
+const Logo3D = ({
+  modelPath,
+  position = [0, 0, 0],
+  targetSize = 0.3,
+  speed = 1,
+  opacity = 1,
+}) => {
+  const groupRef = useRef();
+  const { scene } = useGLTF(modelPath);
+
+  // Get color overrides for this logo
+  const colorOverride = useMemo(() => {
+    const fileName = modelPath.split("/").pop();
+    return logoColorOverrides[fileName] || null;
+  }, [modelPath]);
+
+  // Clone and normalize the scene
+  const { normalizedScene, scale } = useMemo(() => {
+    const cloned = scene.clone();
+
+    // Compute bounding box to normalize size
+    const box = new THREE.Box3().setFromObject(cloned);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const normalizeScale = targetSize / maxDim;
+
+    // Center the model
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    cloned.position.sub(center.multiplyScalar(normalizeScale));
+
+    return { normalizedScene: cloned, scale: normalizeScale };
+  }, [scene, targetSize]);
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * speed;
+    }
+  });
+
+  // Apply opacity and color overrides to all materials
+  useEffect(() => {
+    let meshIndex = 0;
+    normalizedScene.traverse((child) => {
+      if (child.isMesh && child.material) {
+        child.material = child.material.clone();
+        child.material.transparent = true;
+        child.material.opacity = opacity;
+
+        // Apply color override if available
+        if (colorOverride && colorOverride[meshIndex]) {
+          child.material.color = new THREE.Color(colorOverride[meshIndex]);
+        }
+        meshIndex++;
+      }
+    });
+  }, [normalizedScene, opacity, colorOverride]);
+
+  return (
+    <group ref={groupRef} position={position} scale={scale}>
+      <primitive object={normalizedScene} />
+    </group>
+  );
+};
 
 export const experiences = [
   {
@@ -11,6 +85,15 @@ export const experiences = [
     company: "WHITE PROMPT",
     description:
       "Working on scalable web applications using React, Node.js and AWS.",
+    techLogos: [
+      "/aws.glb",
+      "/docker.glb",
+      "/node.glb",
+      "/tailwind.glb",
+      "/vue.glb",
+      "/react.glb",
+      "/typescript.glb",
+    ],
   },
   {
     period: "[2021-2022]",
@@ -18,30 +101,49 @@ export const experiences = [
     company: "CENCOSUD S.A",
     description:
       "Leading technical teams and architectural decisions for e-commerce platforms.",
+    techLogos: [
+      "/typescript.glb",
+      "/react.glb",
+      "/tailwind.glb",
+      "/node.glb",
+      "/aws.glb",
+      "/docker.glb",
+    ],
   },
   {
     period: "[2021-2022]",
     position: "FULLSTACK WEB DEVELOPER",
     company: "SIMTLIX S.R.L",
     description: "Full stack development for international clients.",
+    techLogos: [
+      "/typescript.glb",
+      "/react.glb",
+      "/tailwind.glb",
+      "/node.glb",
+      "/aws.glb",
+      "/docker.glb",
+    ],
   },
   {
     period: "[2019-2021]",
     position: "FULLSTACK WEB DEVELOPER",
     company: "SANCOR SEGUROS",
     description: "Developing internal tools and insurance management systems.",
+    techLogos: ["/typescript.glb", "/react.glb", "/aws.glb"],
   },
   {
     period: "[2019-2021]",
     position: "FULLSTACK WEB DEVELOPER",
     company: "E-PARTNERS S.R.L",
     description: "Web development using modern JavaScript frameworks.",
+    techLogos: ["/typescript.glb", "/react.glb", "/vue.glb"],
   },
   {
     period: "[2017-2018]",
     position: "WORK AND TRAVEL USA",
     company: "VAIL RESORTS",
     description: "International work experience in Keystone, Colorado.",
+    techLogos: ["/snowflake.glb"],
   },
 ];
 
@@ -121,51 +223,80 @@ const ExperienceItem = ({ position, experience, align }) => {
       {/* Text Card */}
       <group position={[align === "left" ? -1.5 : 1.5, 0, 0]}>
         <Text
-          fontSize={0.6}
+          font="/fonts/Fareno.otf"
+          fontSize={0.65}
           anchorX={align === "left" ? "right" : "left"}
           anchorY="middle"
-          maxWidth={5}
+          whiteSpace="nowrap"
           fillOpacity={opacity}
         >
           {experience.company}
           <meshStandardMaterial
-            color="#60a5fa"
-            emissive="#38bdf8"
+            color="#ffffff"
+            emissive="#ffffff"
+            emissiveIntensity={0.3}
+            transparent
+            opacity={opacity}
+          />
+        </Text>
+        <Text
+          font="/fonts/Fareno.otf"
+          fontSize={0.38}
+          anchorX={align === "left" ? "right" : "left"}
+          anchorY="top"
+          position={[0, -0.4, 0]}
+          whiteSpace="nowrap"
+          fillOpacity={opacity}
+        >
+          {experience.position}
+          <meshStandardMaterial
+            color="#3b82f6"
+            emissive="#2563eb"
             emissiveIntensity={0.6}
             transparent
             opacity={opacity}
           />
         </Text>
         <Text
-          fontSize={0.35}
-          anchorX={align === "left" ? "right" : "left"}
-          anchorY="top"
-          position={[0, -0.5, 0]}
-          maxWidth={4}
-          fillOpacity={opacity * 0.8}
-        >
-          {experience.position}
-          <meshBasicMaterial
-            color="#94a3b8"
-            transparent
-            opacity={opacity * 0.8}
-          />
-        </Text>
-        <Text
+          font="/fonts/Fareno.otf"
           fontSize={0.25}
           anchorX={align === "left" ? "right" : "left"}
           anchorY="top"
           position={[0, -1, 0]}
-          maxWidth={4}
-          fillOpacity={opacity * 0.6}
+          whiteSpace="nowrap"
         >
           {experience.period}
           <meshBasicMaterial
-            color="#64748b"
+            color="#ffffff"
             transparent
-            opacity={opacity * 0.6}
+            opacity={opacity * 0.9}
           />
         </Text>
+
+        {/* Tech Logos - Spinning 3D, next to period text */}
+        {experience.techLogos && experience.techLogos.length > 0 && (
+          <group position={[align === "left" ? -2 : 2, -1.15, 0]}>
+            {experience.techLogos.map((logo, index) => {
+              // Fix alignment for specific logos
+              const yOffset = logo.includes("aws") ? -0.09 : 0;
+
+              return (
+                <Logo3D
+                  key={index}
+                  modelPath={logo}
+                  position={[
+                    align === "left" ? -index * 0.55 : index * 0.55,
+                    yOffset,
+                    0,
+                  ]}
+                  targetSize={0.3}
+                  speed={2}
+                  opacity={opacity}
+                />
+              );
+            })}
+          </group>
+        )}
       </group>
     </group>
   );
@@ -260,6 +391,7 @@ const Timeline = ({ scrollProgress }) => {
 
 const CameraController = ({ scrollProgress }) => {
   const cameraPositionRef = useRef(new THREE.Vector3(0, 1.5, 20));
+  const lookAtXRef = useRef(0);
   const timeRef = useRef(0);
 
   useFrame((state, delta) => {
@@ -297,9 +429,34 @@ const CameraController = ({ scrollProgress }) => {
     state.camera.position.y = targetY + floatY;
     state.camera.position.z = cameraPositionRef.current.z;
 
-    // Fixed look-ahead - always look straight ahead with slight downward angle
+    // Calculate which experience point we're approaching/at
+    // Experience items alternate: even indices at x=-3 (left), odd at x=3 (right)
+    const currentItemIndex = Math.floor(segmentIndex);
+    const progressWithinSegment = segmentIndex - currentItemIndex;
+
+    // Determine target X based on which item we're moving towards
+    // Use a smooth sine wave that follows the zig-zag pattern
+    // Items at even indices are on the left (-3), odd on the right (+3)
+    const isMovingToEven = currentItemIndex % 2 === 0;
+    const nextIsEven = (currentItemIndex + 1) % 2 === 0;
+
+    // Blend between current and next item's side based on progress within segment
+    const currentSideX = isMovingToEven ? -1 : 1;
+    const nextSideX = nextIsEven ? -1 : 1;
+    const targetLookAtX =
+      THREE.MathUtils.lerp(currentSideX, nextSideX, progressWithinSegment) *
+      1.2;
+
+    // Smoothly interpolate the look-at X position for subtle rotation
+    lookAtXRef.current = THREE.MathUtils.lerp(
+      lookAtXRef.current,
+      targetLookAtX,
+      0.05
+    );
+
+    // Look ahead with subtle Y rotation towards current experience point
     const lookAheadZ = cameraPositionRef.current.z - 15;
-    state.camera.lookAt(0, -0.5, lookAheadZ);
+    state.camera.lookAt(lookAtXRef.current, -0.5, lookAheadZ);
   });
 
   return null;
@@ -443,14 +600,50 @@ const ExperienceSection = ({ onScrollToPrev, onScrollToNext, isActive }) => {
         </Suspense>
       </Canvas>
 
-      {/* Title with progress indicator */}
-      <div className="absolute top-10 left-1/2 transform -translate-x-1/2 z-20">
-        <h1
-          className="text-6xl font-bold text-white tracking-widest mb-4"
-          style={{ fontFamily: "Fareno, system-ui, sans-serif" }}
+      <div
+        className="absolute top-48 left-0 right-0 transform -translate-y-1/2 z-20 pointer-events-none"
+        style={{
+          opacity: Math.max(0, 1 - scrollProgress * 30),
+          transition: "opacity 0.15s ease-out",
+        }}
+      >
+        <svg
+          viewBox="0 0 1200 200"
+          style={{
+            width: "100%",
+            height: "auto",
+            overflow: "visible",
+          }}
         >
-          EXPERIENCE
-        </h1>
+          <defs>
+            <filter id="subtleGlow" x="-5%" y="-50%" width="110%" height="200%">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <text
+            x="50%"
+            y="50%"
+            dominantBaseline="middle"
+            textAnchor="middle"
+            fill="transparent"
+            stroke="rgba(255, 255, 255, 0.85)"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fontSize="160"
+            fontWeight="100"
+            letterSpacing="0.1em"
+            fontFamily="Fareno, system-ui, sans-serif"
+            filter="url(#subtleGlow)"
+            style={{ paintOrder: "stroke" }}
+          >
+            EXPERIENCE
+          </text>
+        </svg>
       </div>
 
       {/* Scroll hint */}

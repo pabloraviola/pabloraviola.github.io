@@ -98,6 +98,8 @@ const Particles = ({
             opacity={0.9}
             sizeAttenuation
             blending={THREE.AdditiveBlending}
+            depthWrite={false}
+            alphaTest={0.01}
           />
         </points>
       </group>
