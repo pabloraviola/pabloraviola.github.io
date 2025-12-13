@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Boop from "../../../animations/Boop";
+import resume from "../../../../assets/resume.pdf";
+import fce from "../../../../assets/fce.pdf";
+import cae from "../../../../assets/cae.pdf";
 
 export const ANIMATION_PHASE = {
   IDLE: "idle",
@@ -47,8 +50,31 @@ const InfoBox = ({ icon, text = "", link = "" }) => {
 const cards = [
   {
     title: "About Me",
-    content:
-      "I'm a full-stack web developer and systems engineer based in San Francisco, Córdoba, Argentina. I'm passionate about creating thoughtful, user-focused digital experiences and building reliable systems behind them. I like to keep up to date with the latest trends in web development and learning new technologies, exploring fresh ideas, and taking on challenges that help me become a better developer.",
+    content: (
+      <div className="flex flex-col gap-y-6">
+        <p>
+          I'm a full-stack web developer and systems engineer based in San
+          Francisco, Córdoba, Argentina. I'm passionate about creating
+          thoughtful, user-focused digital experiences and building reliable
+          systems behind them. I like to keep up to date with the latest trends
+          in web development and learning new technologies, exploring fresh
+          ideas, and taking on challenges that help me become a better
+          developer.
+        </p>
+        <a
+          // href={`https://resume.io/r/v4cH6A1Oa`}
+          href={resume}
+          target="_blank"
+          className="flex items-center space-x-2 bg-[#1e3a8a] hover:bg-[#1e3a8a]/80 transition-all duration-300 rounded-lg p-2 items-center justify-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <p style={{ fontFamily: "Poppins" }} className="font-bold">
+            Resume
+          </p>
+          <i class="fas fa-file-download"></i>
+        </a>
+      </div>
+    ),
   },
   {
     title: "Personal Info",
@@ -58,6 +84,24 @@ const cards = [
         <InfoBox icon="fas fa-birthday-cake" text="30/04/1992" />
         <InfoBox icon="fas fa-phone" text="+54 3564561315" />
         <InfoBox icon="fas fa-map-marker-alt" text="San francisco, CBA - ARG" />
+      </div>
+    ),
+  },
+  {
+    title: "Education",
+    content: (
+      <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:p-4 lg:mt-3">
+        <InfoBox
+          icon="fas fa-file-contract"
+          text="FIRST CERTIFICATE IN ENGLISH (FCE)"
+          link={fce}
+        />
+        <InfoBox
+          icon="fas fa-file-contract"
+          link={cae}
+          text="CERTIFICATE IN ADVANCED ENGLISH (CAE)"
+        />
+        <InfoBox icon="fas fa-graduation-cap" text="SYSTEMS ENGINEERING" />
       </div>
     ),
   },
