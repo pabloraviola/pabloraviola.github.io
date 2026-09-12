@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.f5987696.css",
-    "main.js": "/static/js/main.a15322cb.js",
+    "main.js": "/static/js/main.709020e3.js",
     "static/js/451.284f4d4c.chunk.js": "/static/js/451.284f4d4c.chunk.js",
     "static/js/453.6cf841e0.chunk.js": "/static/js/453.6cf841e0.chunk.js",
     "static/media/desktop-profile.jpg": "/static/media/desktop-profile.0df504908a036df2b178.jpg",
@@ -48,12 +48,12 @@
     "static/media/tailwind-logo.svg": "/static/media/tailwind-logo.50fbcf516b9a3774e9a83272167059ae.svg",
     "index.html": "/index.html",
     "main.f5987696.css.map": "/static/css/main.f5987696.css.map",
-    "main.a15322cb.js.map": "/static/js/main.a15322cb.js.map",
+    "main.709020e3.js.map": "/static/js/main.709020e3.js.map",
     "451.284f4d4c.chunk.js.map": "/static/js/451.284f4d4c.chunk.js.map",
     "453.6cf841e0.chunk.js.map": "/static/js/453.6cf841e0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f5987696.css",
-    "static/js/main.a15322cb.js"
+    "static/js/main.709020e3.js"
   ]
 }
