@@ -11,7 +11,7 @@ const MacbookModel = ({
   position = [0, 0, 0],
 }) => {
   const { scene, materials, animations } = useGLTF(
-    "/MacBookPro132020/scene.gltf"
+    "/MacbookPro132020/scene.gltf"
   );
 
   const modelRef = useRef();
