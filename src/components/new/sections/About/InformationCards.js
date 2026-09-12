@@ -35,14 +35,30 @@ const InfoBox = ({ icon, text = "", link = "" }) => {
     }
   };
 
-  const content = (
-    <div className="group flex flex-col gap-y-2 2xl:gap-y-4 items-center justify-center p-3 2xl:p-4 rounded-xl border border-white/10 hover:border-[#1e3a8a] bg-white/5 hover:bg-white/10 transition-all duration-300 aspect-square w-full">
+  // Allow long single-token labels (e.g. emails) to wrap after the "@"
+  const label =
+    typeof text === "string" && text.includes("@")
+      ? text.split("@").flatMap((part, i, arr) =>
+          i < arr.length - 1 ? [part + "@", <wbr key={i} />] : [part]
+        )
+      : text;
+
+  // Tiles with a label are a horizontal "icon + text" row on narrower decks
+  // and a square tile on wide screens; icon-only tiles are always square
+  const content = text ? (
+    <div className="group flex items-center gap-3 p-3 2xl:flex-col 2xl:justify-center 2xl:gap-y-4 2xl:p-4 2xl:aspect-square rounded-xl border border-white/10 hover:border-[#1e3a8a] bg-white/5 hover:bg-white/10 transition-all duration-300 w-full">
+      <i
+        className={`${icon} w-8 2xl:w-auto text-center text-2xl 2xl:text-5xl short:text-3xl text-white group-hover:text-[#1e3a8a] transition-colors duration-300`}
+      ></i>
+      <p className="min-w-0 flex-1 2xl:flex-none text-xs text-white text-left 2xl:text-center break-words transition-colors duration-300">
+        {label}
+      </p>
+    </div>
+  ) : (
+    <div className="group flex items-center justify-center p-3 2xl:p-4 rounded-xl border border-white/10 hover:border-[#1e3a8a] bg-white/5 hover:bg-white/10 transition-all duration-300 aspect-square w-full">
       <i
         className={`${icon} text-3xl xl:text-4xl 2xl:text-5xl short:text-3xl text-white group-hover:text-[#1e3a8a] transition-colors duration-300`}
       ></i>
-      <p className="text-xs text-white text-center transition-colors duration-300">
-        {text}
-      </p>
     </div>
   );
 
@@ -96,7 +112,7 @@ const cards = [
   {
     title: "Personal Info",
     content: (
-      <div className="hidden lg:grid lg:grid-cols-2 gap-3 2xl:gap-4 p-1 2xl:p-4 mt-1 2xl:mt-3">
+      <div className="grid grid-cols-1 2xl:grid-cols-2 gap-3 2xl:gap-4 p-1 2xl:p-4 mt-1 2xl:mt-3">
         <InfoBox icon="fas fa-envelope" text="pablo.raviola@gmail.com" />
         <InfoBox icon="fas fa-birthday-cake" text="30/04/1992" />
         <InfoBox icon="fas fa-phone" text="+54 3564561315" />
@@ -107,7 +123,7 @@ const cards = [
   {
     title: "Education",
     content: (
-      <div className="hidden lg:grid lg:grid-cols-2 gap-3 2xl:gap-4 p-1 2xl:p-4 mt-1 2xl:mt-3">
+      <div className="grid grid-cols-1 2xl:grid-cols-2 gap-3 2xl:gap-4 p-1 2xl:p-4 mt-1 2xl:mt-3">
         <InfoBox
           icon="fas fa-file-contract"
           text="FIRST CERTIFICATE IN ENGLISH (FCE)"
@@ -125,7 +141,7 @@ const cards = [
   {
     title: "Social",
     content: (
-      <div className="hidden lg:grid lg:grid-cols-2 gap-3 2xl:gap-4 p-1 2xl:p-4 mt-1 2xl:mt-3">
+      <div className="grid grid-cols-2 gap-3 2xl:gap-4 p-1 2xl:p-4 mt-1 2xl:mt-3">
         <InfoBox
           icon="fab fa-linkedin"
           link="https://www.linkedin.com/in/pablo-raviola-9a833b164/"
@@ -187,8 +203,10 @@ const InformationCards = ({ floatX = 0, floatY = 0 }) => {
   };
 
   return (
+    // All cards share one grid cell, so the deck is exactly as tall as its
+    // tallest card and every card stretches to that height
     <div
-      className="absolute top-0 left-0 w-full h-full cursor-pointer"
+      className="grid w-full cursor-pointer"
       onMouseEnter={() => setIsDeckHovered(true)}
       onMouseLeave={() => setIsDeckHovered(false)}
       onClick={handleDeckClick}
@@ -237,7 +255,7 @@ const InformationCards = ({ floatX = 0, floatY = 0 }) => {
           return (
             <motion.div
               key={card.title}
-              className="bg-[#0f1419] bg-opacity-50 rounded-2xl p-6 xl:p-8 2xl:p-10 short:p-5 absolute backdrop-blur-md flex flex-col gap-3 2xl:gap-5 short:gap-2 border border-white/10 shadow-lg shadow-white/10 h-full w-full overflow-hidden hover:border-[#1e3a8a] hover:bg-opacity-80 hover:shadow-blue-500/20 select-none"
+              className="bg-[#0f1419] bg-opacity-50 rounded-2xl p-6 xl:p-8 2xl:p-10 short:p-5 relative backdrop-blur-md flex flex-col gap-3 2xl:gap-5 short:gap-2 border border-white/10 shadow-lg shadow-white/10 w-full overflow-hidden hover:border-[#1e3a8a] hover:bg-opacity-80 hover:shadow-blue-500/20 select-none"
               animate={transform}
               transition={{
                 type: "spring",
@@ -246,6 +264,7 @@ const InformationCards = ({ floatX = 0, floatY = 0 }) => {
                 duration: isAnimating ? 0.3 : 0.6,
               }}
               style={{
+                gridArea: "1 / 1",
                 transformOrigin: "top left",
                 pointerEvents:
                   animationPhase !== ANIMATION_PHASE.IDLE ? "none" : "auto",

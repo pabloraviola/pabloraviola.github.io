@@ -161,14 +161,13 @@ const About = ({
         </Suspense>
       </Canvas>
 
-      {/* Card deck - sized relative to the viewport so it fits on narrower screens */}
+      {/* Card deck - width follows the viewport, height follows the content */}
       <div
         className="absolute z-10 transition-all duration-300 ease-in-out hover:scale-105"
         style={{
           top: "12%",
           right: "clamp(64px, 9vw, 180px)",
           width: "clamp(300px, 26vw, 480px)",
-          height: "min(740px, 74vh)",
         }}
       >
         <InformationCards floatX={floatX} floatY={floatY} />
