@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "../views/Home";
 import New from "../views/New";
+import SiteSwitcher from "../components/SiteSwitcher";
 
 // Phones / tablets (touch-first devices) and very narrow windows get the
 // classic 2D site: the 3D scenes are built for a wide screen and a mouse wheel.
@@ -34,9 +35,11 @@ export default function router() {
         <Route path="/" element={<Landing />} />
         {/* Explicit versions, regardless of device */}
         <Route path="/new" element={<New />} />
-        <Route path="/old" element={<Home />} />
+        <Route path="/2d" element={<Home />} />
+        <Route path="/old" element={<Navigate to="/2d" replace />} />
         <Route path="*" element={<Landing />} />
       </Routes>
+      <SiteSwitcher />
     </BrowserRouter>
   );
 }
