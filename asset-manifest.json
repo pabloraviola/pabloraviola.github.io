@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.3d9c8a9c.css",
-    "main.js": "/static/js/main.0bc1c3b3.js",
+    "main.css": "/static/css/main.e8ae6446.css",
+    "main.js": "/static/js/main.d0b92162.js",
     "static/js/451.284f4d4c.chunk.js": "/static/js/451.284f4d4c.chunk.js",
     "static/js/453.6cf841e0.chunk.js": "/static/js/453.6cf841e0.chunk.js",
     "static/media/desktop-profile.jpg": "/static/media/desktop-profile.0df504908a036df2b178.jpg",
@@ -47,13 +47,13 @@
     "static/media/graphql.svg": "/static/media/graphql.8171c4e3dae8f04496d6fd1ac23f2940.svg",
     "static/media/tailwind-logo.svg": "/static/media/tailwind-logo.50fbcf516b9a3774e9a83272167059ae.svg",
     "index.html": "/index.html",
-    "main.3d9c8a9c.css.map": "/static/css/main.3d9c8a9c.css.map",
-    "main.0bc1c3b3.js.map": "/static/js/main.0bc1c3b3.js.map",
+    "main.e8ae6446.css.map": "/static/css/main.e8ae6446.css.map",
+    "main.d0b92162.js.map": "/static/js/main.d0b92162.js.map",
     "451.284f4d4c.chunk.js.map": "/static/js/451.284f4d4c.chunk.js.map",
     "453.6cf841e0.chunk.js.map": "/static/js/453.6cf841e0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3d9c8a9c.css",
-    "static/js/main.0bc1c3b3.js"
+    "static/css/main.e8ae6446.css",
+    "static/js/main.d0b92162.js"
   ]
 }
