@@ -19,6 +19,7 @@ const New = () => {
   const [experienceEntry, setExperienceEntry] = useState("start");
   const { ready } = useSceneAssets();
   const [showLoader, setShowLoader] = useState(true);
+  const [reveal, setReveal] = useState(false);
 
   useEffect(() => {
     const previous = window.history.scrollRestoration;
@@ -108,6 +109,7 @@ const New = () => {
   const dismissLoader = () => {
     window.scrollTo(0, 0);
     setCurrentSection(0);
+    setReveal(true);
     window.setTimeout(() => setShowLoader(false), 650);
   };
 
@@ -212,7 +214,7 @@ const New = () => {
         <Hero
           onScrollToNext={scrollToAboutSection}
           isActive={currentSection === 0 && ready && !showLoader}
-          assetsReady={ready}
+          assetsReady={reveal}
         />
       </div>
       <div ref={secondSectionRef}>

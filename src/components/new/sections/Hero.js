@@ -30,17 +30,21 @@ const Hero = ({ onScrollToNext, isActive = true, assetsReady = false }) => {
   useEffect(() => {
     if (!assetsReady) {
       setIntro(0);
+      setFloatTime(0);
       return;
     }
 
-    let frame;
     const start = performance.now();
-    const duration = 1400;
+    startTimeRef.current = start;
+    let frame;
+    const duration = 2000;
     const tick = (now) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      const elapsed = now - start;
+      const t = Math.min(1, elapsed / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
       setIntro(eased);
-      if (t < 1) frame = requestAnimationFrame(tick);
+      setFloatTime(elapsed / 1000);
+      frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
@@ -56,9 +60,7 @@ const Hero = ({ onScrollToNext, isActive = true, assetsReady = false }) => {
       const newTarget = targetScrollRef.current + e.deltaY * 0.3;
 
       if (newTarget > 2000) {
-        // Check if we're already at max scroll
         if (targetScrollRef.current >= 1990) {
-          // We've reached max scroll and user is still scrolling down
           if (onScrollToNext) {
             onScrollToNext();
           }
@@ -69,12 +71,7 @@ const Hero = ({ onScrollToNext, isActive = true, assetsReady = false }) => {
       targetScrollRef.current = Math.max(0, Math.min(2000, newTarget));
     };
 
-    // Smooth animation loop
     const animate = () => {
-      // Update floating animation time
-      const elapsed = (Date.now() - startTimeRef.current) / 1000;
-      setFloatTime(elapsed);
-
       setScrollY((prev) => {
         const newScroll = prev + (targetScrollRef.current - prev) * 0.08;
         return newScroll;
@@ -86,7 +83,6 @@ const Hero = ({ onScrollToNext, isActive = true, assetsReady = false }) => {
       });
 
       setLineRotation((prev) => {
-        // Counter-clockwise rotation at a different pace (negative for opposite direction)
         const target = -targetScrollRef.current * 0.04;
         return prev + (target - prev) * 0.08;
       });
@@ -117,7 +113,7 @@ const Hero = ({ onScrollToNext, isActive = true, assetsReady = false }) => {
   const cy = 250;
   const r = 200;
 
-  const live = intro >= 1 ? 1 : 0;
+  const live = intro;
   const floatY = Math.sin(floatTime * 0.8) * 15 * live;
   const floatX = Math.cos(floatTime * 0.6) * 10 * live;
   const floatRotate = Math.sin(floatTime * 0.5) * 2 * live;

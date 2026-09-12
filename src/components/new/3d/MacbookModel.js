@@ -97,7 +97,7 @@ const MacbookModel = ({
       const maxScroll = 1000;
       const scrollProgress = Math.min(scrollY / maxScroll, 1);
       const targetScale = 4 + scrollProgress * 2;
-      const introScale = 1 - Math.pow(1 - Math.min(1, Math.max(0, intro)), 3);
+      const introScale = Math.min(1, Math.max(0, intro));
       modelRef.current.scale.setScalar(targetScale * introScale);
 
       // Update position with float effect
