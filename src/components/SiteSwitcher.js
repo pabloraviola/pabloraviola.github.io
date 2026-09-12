@@ -45,6 +45,7 @@ const SiteSwitcher = () => {
         to="/"
         className={optionClass(is3D)}
         aria-current={is3D ? "page" : undefined}
+        onClick={() => window.scrollTo(0, 0)}
       >
         3D
       </Link>

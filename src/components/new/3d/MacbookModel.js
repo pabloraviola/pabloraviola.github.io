@@ -8,6 +8,7 @@ const MacbookModel = ({
   floatY = 0,
   floatX = 0,
   floatRotate = 0,
+  intro = 1,
   position = [0, 0, 0],
 }) => {
   const { scene, materials, animations } = useGLTF(
@@ -95,8 +96,9 @@ const MacbookModel = ({
       // Update scale based on scroll
       const maxScroll = 1000;
       const scrollProgress = Math.min(scrollY / maxScroll, 1);
-      const targetScale = 4 + scrollProgress * 2; // Scale from 4 to 6
-      modelRef.current.scale.setScalar(targetScale);
+      const targetScale = 4 + scrollProgress * 2;
+      const introScale = 1 - Math.pow(1 - Math.min(1, Math.max(0, intro)), 3);
+      modelRef.current.scale.setScalar(targetScale * introScale);
 
       // Update position with float effect
       modelRef.current.position.y = -0.3 + floatY * 0.005;
@@ -143,7 +145,7 @@ const MacbookModel = ({
     <primitive
       ref={modelRef}
       object={clonedScene}
-      scale={4.0}
+      scale={0}
       position={[0, 0, 0]}
     />
   );

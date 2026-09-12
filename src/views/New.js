@@ -3,6 +3,8 @@ import Hero from "../components/new/sections/Hero";
 import About from "../components/new/sections/About/About";
 import ExperienceSection from "../components/new/sections/Experience/ExperienceSection";
 import ContactSection from "../components/new/sections/Contact/ContactSection";
+import SceneLoader from "../components/new/SceneLoader";
+import { useSceneAssets } from "../components/new/useSceneAssets";
 
 const New = () => {
   const heroSectionRef = useRef(null);
@@ -15,6 +17,99 @@ const New = () => {
   // Where the experience timeline should resume when it becomes active
   // ("start" when coming from About, "end" when coming back from Contact)
   const [experienceEntry, setExperienceEntry] = useState("start");
+  const { ready } = useSceneAssets();
+  const [showLoader, setShowLoader] = useState(true);
+
+  useEffect(() => {
+    const previous = window.history.scrollRestoration;
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    setCurrentSection(0);
+    setHasReachedSecondSection(false);
+    return () => {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = previous || "auto";
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+    window.scrollTo(0, 0);
+    setCurrentSection(0);
+  }, [ready]);
+
+  useEffect(() => {
+    if (!showLoader) return;
+
+    const html = document.documentElement;
+    const body = document.body;
+    const previous = {
+      htmlOverflow: html.style.overflow,
+      bodyOverflow: body.style.overflow,
+      htmlOverscroll: html.style.overscrollBehavior,
+    };
+
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    html.style.overscrollBehavior = "none";
+
+    const prevent = (event) => {
+      event.preventDefault();
+    };
+
+    const preventKeys = (event) => {
+      if (
+        ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(
+          event.key
+        )
+      ) {
+        event.preventDefault();
+      }
+    };
+
+    const lockTop = () => {
+      if (window.scrollY || html.scrollTop || body.scrollTop) {
+        window.scrollTo(0, 0);
+        html.scrollTop = 0;
+        body.scrollTop = 0;
+      }
+    };
+
+    let frame = 0;
+    const pin = () => {
+      lockTop();
+      frame = requestAnimationFrame(pin);
+    };
+
+    window.addEventListener("wheel", prevent, { passive: false, capture: true });
+    window.addEventListener("touchmove", prevent, { passive: false, capture: true });
+    window.addEventListener("keydown", preventKeys, { capture: true });
+    window.addEventListener("scroll", lockTop, { passive: false, capture: true });
+    frame = requestAnimationFrame(pin);
+    lockTop();
+
+    return () => {
+      cancelAnimationFrame(frame);
+      html.style.overflow = previous.htmlOverflow;
+      body.style.overflow = previous.bodyOverflow;
+      html.style.overscrollBehavior = previous.htmlOverscroll;
+      window.removeEventListener("wheel", prevent, { capture: true });
+      window.removeEventListener("touchmove", prevent, { capture: true });
+      window.removeEventListener("keydown", preventKeys, { capture: true });
+      window.removeEventListener("scroll", lockTop, { capture: true });
+    };
+  }, [showLoader]);
+
+  const dismissLoader = () => {
+    window.scrollTo(0, 0);
+    setCurrentSection(0);
+    window.setTimeout(() => setShowLoader(false), 650);
+  };
 
   const scrollToHeroSection = () => {
     if (heroSectionRef.current) {
@@ -59,6 +154,8 @@ const New = () => {
 
   // TODO: Simplify Section scrolling behavior to be generic by section refs
   useEffect(() => {
+    if (showLoader) return;
+
     const handleScroll = () => {
       if (
         !heroSectionRef.current ||
@@ -97,7 +194,7 @@ const New = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasReachedSecondSection]);
+  }, [hasReachedSecondSection, showLoader]);
 
   return (
     <div className="overflow-hidden">
@@ -114,7 +211,8 @@ const New = () => {
       <div ref={heroSectionRef}>
         <Hero
           onScrollToNext={scrollToAboutSection}
-          isActive={currentSection === 0}
+          isActive={currentSection === 0 && ready && !showLoader}
+          assetsReady={ready}
         />
       </div>
       <div ref={secondSectionRef}>
@@ -122,7 +220,7 @@ const New = () => {
           onScrollToPrev={scrollToHeroSection}
           onScrollToNext={() => scrollToExperienceSection("start")}
           showGuy={hasReachedSecondSection}
-          isActive={currentSection === 1}
+          isActive={currentSection === 1 && ready && !showLoader}
         />
       </div>
       <div ref={experienceSectionRef}>
@@ -130,15 +228,18 @@ const New = () => {
           onScrollToPrev={scrollToAboutSection}
           onScrollToNext={scrollToContactSection}
           entry={experienceEntry}
-          isActive={currentSection === 2}
+          isActive={currentSection === 2 && ready && !showLoader}
         />
       </div>
       <div ref={contactSectionRef}>
         <ContactSection
           onScrollToPrev={() => scrollToExperienceSection("end")}
-          isActive={currentSection === 3}
+          isActive={currentSection === 3 && ready && !showLoader}
         />
       </div>
+      {showLoader && (
+        <SceneLoader fading={ready} onComplete={dismissLoader} />
+      )}
     </div>
   );
 };

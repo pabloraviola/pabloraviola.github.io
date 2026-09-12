@@ -4,7 +4,7 @@ import MacbookModel from "../3d/MacbookModel";
 import Particles from "../3d/Particles";
 import { TextFlameDefs, LineGlowStyles } from "../../animations/Flame";
 
-const Hero = ({ onScrollToNext, isActive = true }) => {
+const Hero = ({ onScrollToNext, isActive = true, assetsReady = false }) => {
   const [scrollY, setScrollY] = useState(0);
   const [displayRotation, setDisplayRotation] = useState(0);
   const [lineRotation, setLineRotation] = useState(0);
@@ -13,6 +13,7 @@ const Hero = ({ onScrollToNext, isActive = true }) => {
   const targetScrollRef = useRef(0);
   const startTimeRef = useRef(Date.now());
   const containerRef = useRef(null);
+  const [intro, setIntro] = useState(0);
   const [viewport, setViewport] = useState({
     w: typeof window !== "undefined" ? window.innerWidth : 1200,
     h: typeof window !== "undefined" ? window.innerHeight : 800,
@@ -27,7 +28,26 @@ const Hero = ({ onScrollToNext, isActive = true }) => {
   }, []);
 
   useEffect(() => {
-    if (!isActive) return;
+    if (!assetsReady) {
+      setIntro(0);
+      return;
+    }
+
+    let frame;
+    const start = performance.now();
+    const duration = 1400;
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      setIntro(eased);
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [assetsReady]);
+
+  useEffect(() => {
+    if (!isActive || intro < 1) return;
 
     const handleWheel = (e) => {
       e.preventDefault();
@@ -88,21 +108,19 @@ const Hero = ({ onScrollToNext, isActive = true }) => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [isActive, onScrollToNext]);
+  }, [isActive, onScrollToNext, intro]);
 
-  // Calculate rotation for text (clockwise)
   const textRotation = displayRotation;
-
-  // Calculate floating offsets
-  const floatY = Math.sin(floatTime * 0.8) * 15; // Vertical float
-  const floatX = Math.cos(floatTime * 0.6) * 10; // Horizontal float
-  const floatRotate = Math.sin(floatTime * 0.5) * 2; // Slight rotation
-
   const topText = "PABLO RAVIOLA";
   const bottomText = "SOFTWARE ENGINEER";
   const cx = 250;
   const cy = 250;
   const r = 200;
+
+  const live = intro >= 1 ? 1 : 0;
+  const floatY = Math.sin(floatTime * 0.8) * 15 * live;
+  const floatX = Math.cos(floatTime * 0.6) * 10 * live;
+  const floatRotate = Math.sin(floatTime * 0.5) * 2 * live;
 
   const fontFamily = "Fareno";
   const letterSpacing = "12";
@@ -137,6 +155,7 @@ const Hero = ({ onScrollToNext, isActive = true }) => {
           zIndex: 10,
           willChange: "transform",
           overflow: "visible",
+          opacity: intro,
         }}
         viewBox="0 0 500 500"
       >
@@ -278,7 +297,7 @@ const Hero = ({ onScrollToNext, isActive = true }) => {
           height: "min(90vh, 90vw)",
           pointerEvents: "none",
           zIndex: 1,
-          opacity: 1,
+          opacity: intro,
           willChange: "transform",
         }}
       >
@@ -321,6 +340,7 @@ const Hero = ({ onScrollToNext, isActive = true }) => {
             floatY={floatY}
             floatX={floatX}
             floatRotate={floatRotate}
+            intro={intro}
           />
         </Suspense>
       </Canvas>
