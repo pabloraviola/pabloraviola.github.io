@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Boop from "../../../animations/Boop";
 import resume from "../../../../assets/resume.pdf";
@@ -11,6 +11,23 @@ export const ANIMATION_PHASE = {
   MOVING_IN: "moving-in",
 };
 
+// Tracks a CSS media query (used to tighten the deck on narrower screens)
+const useMediaQuery = (query) => {
+  const [matches, setMatches] = useState(
+    () => typeof window !== "undefined" && window.matchMedia(query).matches
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const onChange = (e) => setMatches(e.matches);
+    setMatches(media.matches);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, [query]);
+
+  return matches;
+};
+
 const InfoBox = ({ icon, text = "", link = "" }) => {
   const handleClick = (e) => {
     if (link) {
@@ -19,9 +36,9 @@ const InfoBox = ({ icon, text = "", link = "" }) => {
   };
 
   const content = (
-    <div className="group flex flex-col gap-y-4 items-center justify-center p-4 rounded-xl border border-white/10 hover:border-[#1e3a8a] bg-white/5 hover:bg-white/10 transition-all duration-300 aspect-square w-full">
+    <div className="group flex flex-col gap-y-2 2xl:gap-y-4 items-center justify-center p-3 2xl:p-4 rounded-xl border border-white/10 hover:border-[#1e3a8a] bg-white/5 hover:bg-white/10 transition-all duration-300 aspect-square w-full">
       <i
-        className={`${icon} text-5xl text-white group-hover:text-[#1e3a8a] transition-colors duration-300`}
+        className={`${icon} text-3xl xl:text-4xl 2xl:text-5xl short:text-3xl text-white group-hover:text-[#1e3a8a] transition-colors duration-300`}
       ></i>
       <p className="text-xs text-white text-center transition-colors duration-300">
         {text}
@@ -51,8 +68,8 @@ const cards = [
   {
     title: "About Me",
     content: (
-      <div className="flex flex-col gap-y-6">
-        <p>
+      <div className="flex flex-col gap-y-4 2xl:gap-y-6">
+        <p className="leading-snug 2xl:leading-normal short:leading-snug">
           I'm a full-stack web developer and systems engineer based in San
           Francisco, Córdoba, Argentina. I'm passionate about creating
           thoughtful, user-focused digital experiences and building reliable
@@ -79,7 +96,7 @@ const cards = [
   {
     title: "Personal Info",
     content: (
-      <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:p-4 lg:mt-3">
+      <div className="hidden lg:grid lg:grid-cols-2 gap-3 2xl:gap-4 p-1 2xl:p-4 mt-1 2xl:mt-3">
         <InfoBox icon="fas fa-envelope" text="pablo.raviola@gmail.com" />
         <InfoBox icon="fas fa-birthday-cake" text="30/04/1992" />
         <InfoBox icon="fas fa-phone" text="+54 3564561315" />
@@ -90,7 +107,7 @@ const cards = [
   {
     title: "Education",
     content: (
-      <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:p-4 lg:mt-3">
+      <div className="hidden lg:grid lg:grid-cols-2 gap-3 2xl:gap-4 p-1 2xl:p-4 mt-1 2xl:mt-3">
         <InfoBox
           icon="fas fa-file-contract"
           text="FIRST CERTIFICATE IN ENGLISH (FCE)"
@@ -108,7 +125,7 @@ const cards = [
   {
     title: "Social",
     content: (
-      <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:p-4 lg:mt-3">
+      <div className="hidden lg:grid lg:grid-cols-2 gap-3 2xl:gap-4 p-1 2xl:p-4 mt-1 2xl:mt-3">
         <InfoBox
           icon="fab fa-linkedin"
           link="https://www.linkedin.com/in/pablo-raviola-9a833b164/"
@@ -128,6 +145,9 @@ const cards = [
 ];
 
 const InformationCards = ({ floatX = 0, floatY = 0 }) => {
+  // On narrower screens the deck is smaller, so fan the cards out less
+  const compact = useMediaQuery("(max-width: 1535px)");
+  const spread = compact ? 0.6 : 1;
   const [isDeckHovered, setIsDeckHovered] = useState(false);
   const [activeCard, setActiveCard] = useState(cards[0]);
   const [cardOrder, setCardOrder] = useState(cards.map((_, index) => index));
@@ -186,8 +206,8 @@ const InformationCards = ({ floatX = 0, floatY = 0 }) => {
                 return { x: -800, y: -50, rotate: -15, zIndex: 99 };
               } else {
                 return {
-                  x: (cards.length - 1) * 20,
-                  y: (cards.length - 1) * 10,
+                  x: (cards.length - 1) * 20 * spread,
+                  y: (cards.length - 1) * 10 * spread,
                   rotate: (cards.length - 1) * 2,
                   zIndex: 1,
                 };
@@ -195,13 +215,16 @@ const InformationCards = ({ floatX = 0, floatY = 0 }) => {
             }
 
             // Normal card position
-            const hoverOffset = isDeckHovered ? stackPosition * 50 : 0;
+            const hoverOffset = isDeckHovered ? stackPosition * 50 * spread : 0;
             return {
-              x: (isActive ? 0 : stackPosition * 20) + floatX + hoverOffset,
+              x:
+                (isActive ? 0 : stackPosition * 20 * spread) +
+                floatX +
+                hoverOffset,
               y:
-                (isActive ? 0 : stackPosition * 10) +
+                (isActive ? 0 : stackPosition * 10 * spread) +
                 floatY +
-                (isDeckHovered ? stackPosition * 10 : 0),
+                (isDeckHovered ? stackPosition * 10 * spread : 0),
               rotate:
                 (isActive ? 0 : stackPosition * 2) +
                 (isDeckHovered ? stackPosition * 2 : 0),
@@ -214,7 +237,7 @@ const InformationCards = ({ floatX = 0, floatY = 0 }) => {
           return (
             <motion.div
               key={card.title}
-              className="bg-[#0f1419] bg-opacity-50 rounded-2xl p-10 absolute backdrop-blur-md flex flex-col gap-5 border border-white/10 shadow-lg shadow-white/10 h-full w-full hover:border-[#1e3a8a] hover:bg-opacity-80 hover:shadow-blue-500/20 select-none"
+              className="bg-[#0f1419] bg-opacity-50 rounded-2xl p-6 xl:p-8 2xl:p-10 short:p-5 absolute backdrop-blur-md flex flex-col gap-3 2xl:gap-5 short:gap-2 border border-white/10 shadow-lg shadow-white/10 h-full w-full overflow-hidden hover:border-[#1e3a8a] hover:bg-opacity-80 hover:shadow-blue-500/20 select-none"
               animate={transform}
               transition={{
                 type: "spring",
@@ -230,14 +253,14 @@ const InformationCards = ({ floatX = 0, floatY = 0 }) => {
               whileHover={!isAnimating ? { scale: isActive ? 1 : 1.02 } : {}}
             >
               <motion.h2
-                className="text-5xl font-extrabold italic text-white text-center text-shadow-xl text-shadow-[#0ea5e9]"
+                className="text-3xl xl:text-4xl 2xl:text-5xl short:text-3xl font-extrabold italic text-white text-center text-shadow-xl text-shadow-[#0ea5e9]"
                 style={{ fontFamily: "Fareno, system-ui, sans-serif" }}
                 animate={{ opacity: isActive && !isAnimating ? 1 : 0.8 }}
               >
                 {card.title}
               </motion.h2>
               <motion.p
-                className="text-2xl text-gray-300"
+                className="text-base xl:text-lg 2xl:text-2xl short:text-base text-gray-300 flex-1 min-h-0"
                 animate={{ opacity: isActive && !isAnimating ? 1 : 0.6 }}
                 transition={{ duration: 0.3 }}
                 style={{ fontFamily: "Poppins" }}

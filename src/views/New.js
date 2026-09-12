@@ -2,14 +2,19 @@ import React, { useRef, useEffect, useState } from "react";
 import Hero from "../components/new/sections/Hero";
 import About from "../components/new/sections/About/About";
 import ExperienceSection from "../components/new/sections/Experience/ExperienceSection";
+import ContactSection from "../components/new/sections/Contact/ContactSection";
 
 const New = () => {
   const heroSectionRef = useRef(null);
   const secondSectionRef = useRef(null);
   const experienceSectionRef = useRef(null);
+  const contactSectionRef = useRef(null);
   const [currentSection, setCurrentSection] = useState(0);
   const [isInSecondSection, setIsInSecondSection] = useState(false);
   const [hasReachedSecondSection, setHasReachedSecondSection] = useState(false);
+  // Where the experience timeline should resume when it becomes active
+  // ("start" when coming from About, "end" when coming back from Contact)
+  const [experienceEntry, setExperienceEntry] = useState("start");
 
   const scrollToHeroSection = () => {
     if (heroSectionRef.current) {
@@ -31,13 +36,24 @@ const New = () => {
     }
   };
 
-  const scrollToExperienceSection = () => {
+  const scrollToExperienceSection = (entry = "start") => {
     if (experienceSectionRef.current) {
+      setExperienceEntry(entry);
       experienceSectionRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
       setCurrentSection(2);
+    }
+  };
+
+  const scrollToContactSection = () => {
+    if (contactSectionRef.current) {
+      contactSectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      setCurrentSection(3);
     }
   };
 
@@ -47,7 +63,8 @@ const New = () => {
       if (
         !heroSectionRef.current ||
         !secondSectionRef.current ||
-        !experienceSectionRef.current
+        !experienceSectionRef.current ||
+        !contactSectionRef.current
       )
         return;
 
@@ -55,6 +72,7 @@ const New = () => {
       const secondRect = secondSectionRef.current.getBoundingClientRect();
       const experienceRect =
         experienceSectionRef.current.getBoundingClientRect();
+      const contactRect = contactSectionRef.current.getBoundingClientRect();
 
       if (heroRect.top >= -100 && heroRect.top <= 100) {
         setCurrentSection(0);
@@ -67,6 +85,9 @@ const New = () => {
         }
       } else if (experienceRect.top >= -100 && experienceRect.top <= 100) {
         setCurrentSection(2);
+        setIsInSecondSection(false);
+      } else if (contactRect.top >= -100 && contactRect.top <= 100) {
+        setCurrentSection(3);
         setIsInSecondSection(false);
       }
     };
@@ -99,7 +120,7 @@ const New = () => {
       <div ref={secondSectionRef}>
         <About
           onScrollToPrev={scrollToHeroSection}
-          onScrollToNext={scrollToExperienceSection}
+          onScrollToNext={() => scrollToExperienceSection("start")}
           showGuy={hasReachedSecondSection}
           isActive={currentSection === 1}
         />
@@ -107,7 +128,15 @@ const New = () => {
       <div ref={experienceSectionRef}>
         <ExperienceSection
           onScrollToPrev={scrollToAboutSection}
+          onScrollToNext={scrollToContactSection}
+          entry={experienceEntry}
           isActive={currentSection === 2}
+        />
+      </div>
+      <div ref={contactSectionRef}>
+        <ContactSection
+          onScrollToPrev={() => scrollToExperienceSection("end")}
+          isActive={currentSection === 3}
         />
       </div>
     </div>

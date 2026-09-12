@@ -1,8 +1,25 @@
 import React, { Suspense, useRef, useState, useEffect, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Text, Line, PerspectiveCamera, useGLTF } from "@react-three/drei";
+import {
+  Text,
+  Line,
+  PerspectiveCamera,
+  useGLTF,
+  useTexture,
+} from "@react-three/drei";
 import * as THREE from "three";
 import Particles from "../../3d/Particles";
+import { experiences } from "./experiences";
+import { projects } from "./projects";
+import {
+  journey,
+  experiencePosition,
+  CAMERA_FOV,
+} from "./journeyPath";
+import { useDistanceFade, fadeProfiles } from "./useDistanceFade";
+import ProjectCard from "./ProjectCard";
+
+export { experiences };
 
 // Color overrides for specific logos
 const logoColorOverrides = {
@@ -17,7 +34,6 @@ const Logo3D = ({
   position = [0, 0, 0],
   targetSize = 0.3,
   speed = 1,
-  opacity = 1,
 }) => {
   const groupRef = useRef();
   const { scene } = useGLTF(modelPath);
@@ -53,23 +69,23 @@ const Logo3D = ({
     }
   });
 
-  // Apply opacity and color overrides to all materials
+  // Give every mesh its own transparent material (opacity is driven by the
+  // parent's distance fade) and apply color overrides
   useEffect(() => {
     let meshIndex = 0;
     normalizedScene.traverse((child) => {
       if (child.isMesh && child.material) {
         child.material = child.material.clone();
         child.material.transparent = true;
-        child.material.opacity = opacity;
+        child.material.userData.baseOpacity = 1;
 
-        // Apply color override if available
         if (colorOverride && colorOverride[meshIndex]) {
           child.material.color = new THREE.Color(colorOverride[meshIndex]);
         }
         meshIndex++;
       }
     });
-  }, [normalizedScene, opacity, colorOverride]);
+  }, [normalizedScene, colorOverride]);
 
   return (
     <group ref={groupRef} position={position} scale={scale}>
@@ -78,119 +94,9 @@ const Logo3D = ({
   );
 };
 
-export const experiences = [
-  {
-    period: "[2022-NOW]",
-    position: "SOFTWARE ENGINEER",
-    company: "WHITE PROMPT",
-    description:
-      "Working on scalable web applications using React, Node.js and AWS.",
-    techLogos: [
-      "/aws.glb",
-      "/docker.glb",
-      "/node.glb",
-      "/tailwind.glb",
-      "/vue.glb",
-      "/react.glb",
-      "/typescript.glb",
-    ],
-  },
-  {
-    period: "[2021-2022]",
-    position: "TECH LEAD",
-    company: "CENCOSUD S.A",
-    description:
-      "Leading technical teams and architectural decisions for e-commerce platforms.",
-    techLogos: [
-      "/typescript.glb",
-      "/react.glb",
-      "/tailwind.glb",
-      "/node.glb",
-      "/aws.glb",
-      "/docker.glb",
-    ],
-  },
-  {
-    period: "[2021-2022]",
-    position: "FULLSTACK WEB DEVELOPER",
-    company: "SIMTLIX S.R.L",
-    description: "Full stack development for international clients.",
-    techLogos: [
-      "/typescript.glb",
-      "/react.glb",
-      "/tailwind.glb",
-      "/node.glb",
-      "/aws.glb",
-      "/docker.glb",
-    ],
-  },
-  {
-    period: "[2019-2021]",
-    position: "FULLSTACK WEB DEVELOPER",
-    company: "SANCOR SEGUROS",
-    description: "Developing internal tools and insurance management systems.",
-    techLogos: ["/typescript.glb", "/react.glb", "/aws.glb"],
-  },
-  {
-    period: "[2019-2021]",
-    position: "FULLSTACK WEB DEVELOPER",
-    company: "E-PARTNERS S.R.L",
-    description: "Web development using modern JavaScript frameworks.",
-    techLogos: ["/typescript.glb", "/react.glb", "/vue.glb"],
-  },
-  {
-    period: "[2017-2018]",
-    position: "WORK AND TRAVEL USA",
-    company: "VAIL RESORTS",
-    description: "International work experience in Keystone, Colorado.",
-    techLogos: ["/snowflake.glb"],
-  },
-];
-
-// Spacing between experience items
-const ITEM_SPACING = 15;
-const TOTAL_DEPTH = experiences.length * ITEM_SPACING;
-
 const ExperienceItem = ({ position, experience, align }) => {
   const groupRef = useRef();
-  const opacityRef = useRef(0);
-  const [, forceUpdate] = useState(0);
-
-  useFrame((state) => {
-    if (!groupRef.current) return;
-    const itemZ = position[2];
-    const camZ = state.camera.position.z;
-    const dist = camZ - itemZ;
-
-    // Fade in when camera approaches, stay visible when passing
-    let targetOpacity = 0;
-    if (dist > 5 && dist < 40) {
-      // Approaching - fade in
-      targetOpacity = THREE.MathUtils.mapLinear(dist, 40, 15, 0, 1);
-      targetOpacity = THREE.MathUtils.clamp(targetOpacity, 0, 1);
-    } else if (dist >= -5 && dist <= 5) {
-      // Right at the item
-      targetOpacity = 1;
-    } else if (dist < -5 && dist > -30) {
-      // Passed it - fade out slowly
-      targetOpacity = THREE.MathUtils.mapLinear(dist, -5, -30, 1, 0);
-      targetOpacity = THREE.MathUtils.clamp(targetOpacity, 0, 1);
-    }
-
-    // Smooth lerp
-    opacityRef.current = THREE.MathUtils.lerp(
-      opacityRef.current,
-      targetOpacity,
-      0.08
-    );
-
-    // Force re-render for opacity changes
-    if (Math.abs(opacityRef.current - targetOpacity) > 0.01) {
-      forceUpdate((n) => n + 1);
-    }
-  });
-
-  const opacity = opacityRef.current;
+  useDistanceFade(groupRef, position[2], fadeProfiles.experience);
 
   return (
     <group position={position} ref={groupRef}>
@@ -202,7 +108,6 @@ const ExperienceItem = ({ position, experience, align }) => {
           emissive="#60a5fa"
           emissiveIntensity={3}
           transparent
-          opacity={opacity}
         />
       </mesh>
 
@@ -215,7 +120,7 @@ const ExperienceItem = ({ position, experience, align }) => {
         <meshBasicMaterial
           color="#60a5fa"
           transparent
-          opacity={opacity * 0.5}
+          opacity={0.5}
           side={THREE.DoubleSide}
         />
       </mesh>
@@ -228,7 +133,6 @@ const ExperienceItem = ({ position, experience, align }) => {
           anchorX={align === "left" ? "right" : "left"}
           anchorY="middle"
           whiteSpace="nowrap"
-          fillOpacity={opacity}
         >
           {experience.company}
           <meshStandardMaterial
@@ -236,7 +140,6 @@ const ExperienceItem = ({ position, experience, align }) => {
             emissive="#ffffff"
             emissiveIntensity={0.3}
             transparent
-            opacity={opacity}
           />
         </Text>
         <Text
@@ -246,7 +149,6 @@ const ExperienceItem = ({ position, experience, align }) => {
           anchorY="top"
           position={[0, -0.4, 0]}
           whiteSpace="nowrap"
-          fillOpacity={opacity}
         >
           {experience.position}
           <meshStandardMaterial
@@ -254,7 +156,6 @@ const ExperienceItem = ({ position, experience, align }) => {
             emissive="#2563eb"
             emissiveIntensity={0.6}
             transparent
-            opacity={opacity}
           />
         </Text>
         <Text
@@ -266,11 +167,7 @@ const ExperienceItem = ({ position, experience, align }) => {
           whiteSpace="nowrap"
         >
           {experience.period}
-          <meshBasicMaterial
-            color="#ffffff"
-            transparent
-            opacity={opacity * 0.9}
-          />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.9} />
         </Text>
 
         {/* Tech Logos - Spinning 3D, next to period text */}
@@ -291,7 +188,6 @@ const ExperienceItem = ({ position, experience, align }) => {
                   ]}
                   targetSize={0.3}
                   speed={2}
-                  opacity={opacity}
                 />
               );
             })}
@@ -302,65 +198,65 @@ const ExperienceItem = ({ position, experience, align }) => {
   );
 };
 
-const Timeline = ({ scrollProgress }) => {
-  const lineRef = useRef();
+// Floating "PORTFOLIO" label between the last experience and the first card
+const PortfolioLabel = () => {
+  const groupRef = useRef();
+  useDistanceFade(groupRef, journey.portfolioLabel.z, fadeProfiles.label);
 
-  // Generate zig-zag path points
-  const { fullPath, pathLength } = useMemo(() => {
-    const points = [];
-    // Start point - in front of camera
-    points.push(new THREE.Vector3(0, 0, 15));
+  return (
+    <group ref={groupRef} position={journey.portfolioLabel.position}>
+      <Text
+        font="/fonts/Fareno.otf"
+        fontSize={2.4}
+        anchorX="center"
+        anchorY="middle"
+        letterSpacing={0.12}
+        whiteSpace="nowrap"
+        fillOpacity={0.05}
+        strokeWidth={0.035}
+        strokeColor="#ffffff"
+        strokeOpacity={0.85}
+      >
+        PORTFOLIO
+        <meshBasicMaterial color="#ffffff" transparent toneMapped={false} />
+      </Text>
+    </group>
+  );
+};
 
-    experiences.forEach((_, i) => {
-      const x = i % 2 === 0 ? -3 : 3;
-      const z = -i * ITEM_SPACING;
-      points.push(new THREE.Vector3(x, 0, z));
-    });
+// Mounts children once the camera gets close enough (lazy texture loading)
+const LazyMount = ({ z, distance = 90, children }) => {
+  const [mounted, setMounted] = useState(false);
+  useFrame((state) => {
+    if (!mounted && state.camera.position.z - z < distance) setMounted(true);
+  });
+  return mounted ? children : null;
+};
 
-    // End point
-    points.push(
-      new THREE.Vector3(
-        experiences.length % 2 === 0 ? -3 : 3,
-        0,
-        -TOTAL_DEPTH - 10
-      )
-    );
+// The continuous line that is "drawn" as the user scrolls
+const JourneyLine = ({ scrollRef }) => {
+  const mainRef = useRef();
+  const glowRef = useRef();
+  const tipRef = useRef();
+  const tipGlowRef = useRef();
 
-    const curve = new THREE.CatmullRomCurve3(points, false, "catmullrom", 0.3);
-    return {
-      fullPath: curve.getPoints(500),
-      pathLength: curve.getLength(),
-    };
-  }, []);
-
-  // Calculate how many points to show based on scroll
-  const visiblePoints = useMemo(() => {
-    // Always show at least a starting segment
-    const minPoints = 10;
-    const totalPoints = fullPath.length;
-    // Progress determines how much of the line is drawn
-    const count = Math.max(
-      minPoints,
-      Math.floor((scrollProgress + 0.05) * totalPoints)
-    );
-    return fullPath.slice(0, Math.min(count, totalPoints));
-  }, [scrollProgress, fullPath]);
+  useFrame(() => {
+    const s = scrollRef.current.current;
+    const count = journey.segmentCountAt(s);
+    if (mainRef.current) mainRef.current.geometry.instanceCount = count;
+    if (glowRef.current) glowRef.current.geometry.instanceCount = count;
+    if (tipRef.current) {
+      journey.pointAt(s, tipRef.current.position);
+      tipGlowRef.current.position.copy(tipRef.current.position);
+    }
+  });
 
   return (
     <>
-      {/* Background trace - full path faintly visible */}
-      {/* <Line
-        points={fullPath}
-        color="#1e3a5f"
-        lineWidth={2}
-        transparent
-        opacity={0.15}
-      /> */}
-
       {/* Active timeline - bright and visible */}
       <Line
-        ref={lineRef}
-        points={visiblePoints}
+        ref={mainRef}
+        points={journey.points}
         color="#38bdf8"
         lineWidth={6}
         transparent
@@ -369,112 +265,181 @@ const Timeline = ({ scrollProgress }) => {
 
       {/* Glow line overlay */}
       <Line
-        points={visiblePoints}
+        ref={glowRef}
+        points={journey.points}
         color="#60a5fa"
         lineWidth={12}
         transparent
         opacity={0.3}
       />
 
+      {/* Line tip */}
+      <mesh ref={tipRef}>
+        <sphereGeometry args={[0.14, 16, 16]} />
+        <meshBasicMaterial color="#e0f2fe" toneMapped={false} />
+      </mesh>
+      <mesh ref={tipGlowRef}>
+        <sphereGeometry args={[0.32, 16, 16]} />
+        <meshBasicMaterial
+          color="#60a5fa"
+          transparent
+          opacity={0.35}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+    </>
+  );
+};
+
+const Timeline = ({ scrollRef }) => {
+  return (
+    <>
+      <JourneyLine scrollRef={scrollRef} />
+
       {/* Experience items */}
       {experiences.map((exp, i) => (
         <ExperienceItem
           key={i}
-          position={[i % 2 === 0 ? -3 : 3, 0, -i * ITEM_SPACING]}
+          position={experiencePosition(i).toArray()}
           experience={exp}
           align={i % 2 === 0 ? "left" : "right"}
         />
+      ))}
+
+      <PortfolioLabel />
+
+      {/* Portfolio cards */}
+      {journey.cards.map((card) => (
+        <LazyMount key={card.index} z={card.z}>
+          <ProjectCard project={projects[card.index]} z={card.z} />
+        </LazyMount>
       ))}
     </>
   );
 };
 
-const CameraController = ({ scrollProgress }) => {
-  const cameraPositionRef = useRef(new THREE.Vector3(0, 1.5, 20));
-  const lookAtXRef = useRef(0);
-  const timeRef = useRef(0);
+// Smoothly moves the drawn distance towards the wheel target and reports
+// coarse UI state (title opacity / hint) to the DOM overlay
+const ScrollDriver = ({ scrollRef, onUiChange }) => {
+  const lastUi = useRef({ titleOpacity: null, showHint: null });
 
   useFrame((state, delta) => {
-    timeRef.current += delta;
+    const scroll = scrollRef.current;
+    const k = 1 - Math.exp(-delta * 5);
+    scroll.current += (scroll.target - scroll.current) * k;
+    if (Math.abs(scroll.target - scroll.current) < 0.001) {
+      scroll.current = scroll.target;
+    }
 
-    // Target camera Z based on scroll progress
-    const startZ = 20;
-    const endZ = -TOTAL_DEPTH + 5;
-    const targetZ = startZ + scrollProgress * (endZ - startZ);
-
-    // Calculate which "segment" we're in for subtle horizontal following
-    const segmentIndex = Math.abs(targetZ - startZ) / ITEM_SPACING;
-    const targetX = Math.sin(segmentIndex * Math.PI * 0.5) * 0.8;
-
-    // Fixed camera height - just slightly elevated
-    const targetY = 1.5;
-
-    // Smooth camera movement with easing
-    cameraPositionRef.current.x = THREE.MathUtils.lerp(
-      cameraPositionRef.current.x,
-      targetX,
-      0.04
-    );
-    cameraPositionRef.current.z = THREE.MathUtils.lerp(
-      cameraPositionRef.current.z,
-      targetZ,
-      0.06
-    );
-
-    // Subtle floating motion for organic feel
-    const floatY = Math.sin(timeRef.current * 0.5) * 0.08;
-    const floatX = Math.cos(timeRef.current * 0.3) * 0.05;
-
-    state.camera.position.x = cameraPositionRef.current.x + floatX;
-    state.camera.position.y = targetY + floatY;
-    state.camera.position.z = cameraPositionRef.current.z;
-
-    // Calculate which experience point we're approaching/at
-    // Experience items alternate: even indices at x=-3 (left), odd at x=3 (right)
-    const currentItemIndex = Math.floor(segmentIndex);
-    const progressWithinSegment = segmentIndex - currentItemIndex;
-
-    // Determine target X based on which item we're moving towards
-    // Use a smooth sine wave that follows the zig-zag pattern
-    // Items at even indices are on the left (-3), odd on the right (+3)
-    const isMovingToEven = currentItemIndex % 2 === 0;
-    const nextIsEven = (currentItemIndex + 1) % 2 === 0;
-
-    // Blend between current and next item's side based on progress within segment
-    const currentSideX = isMovingToEven ? -1 : 1;
-    const nextSideX = nextIsEven ? -1 : 1;
-    const targetLookAtX =
-      THREE.MathUtils.lerp(currentSideX, nextSideX, progressWithinSegment) *
-      1.2;
-
-    // Smoothly interpolate the look-at X position for subtle rotation
-    lookAtXRef.current = THREE.MathUtils.lerp(
-      lookAtXRef.current,
-      targetLookAtX,
-      0.05
-    );
-
-    // Look ahead with subtle Y rotation towards current experience point
-    const lookAheadZ = cameraPositionRef.current.z - 15;
-    state.camera.lookAt(lookAtXRef.current, -0.5, lookAheadZ);
+    const travelled = scroll.current - scroll.min;
+    const titleOpacity =
+      Math.round(THREE.MathUtils.clamp(1 - travelled / 4, 0, 1) * 40) / 40;
+    const showHint = travelled < 12;
+    if (
+      titleOpacity !== lastUi.current.titleOpacity ||
+      showHint !== lastUi.current.showHint
+    ) {
+      lastUi.current = { titleOpacity, showHint };
+      onUiChange(lastUi.current);
+    }
   });
 
   return null;
 };
 
-const ExperienceSection = ({ onScrollToPrev, onScrollToNext, isActive }) => {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const targetProgressRef = useRef(0);
+const CameraRig = ({ scrollRef }) => {
+  const desired = useMemo(
+    () => ({ position: new THREE.Vector3(), target: new THREE.Vector3() }),
+    []
+  );
+  const current = useMemo(
+    () => ({
+      position: new THREE.Vector3(0, 1.5, 22),
+      target: new THREE.Vector3(0, -0.5, 7),
+    }),
+    []
+  );
+  const timeRef = useRef(0);
+
+  useFrame((state, delta) => {
+    timeRef.current += delta;
+
+    const aspect = state.size.width / Math.max(1, state.size.height);
+    journey.getCameraPose(scrollRef.current.current, aspect, desired);
+
+    // Jump straight to the pose after a section-level reposition
+    if (scrollRef.current.snapCamera) {
+      scrollRef.current.snapCamera = false;
+      current.position.copy(desired.position);
+      current.target.copy(desired.target);
+    }
+
+    // Smooth camera movement with easing
+    const k = 1 - Math.exp(-delta * 4.5);
+    current.position.lerp(desired.position, k);
+    current.target.lerp(desired.target, k);
+
+    // Subtle floating motion for organic feel
+    const floatY = Math.sin(timeRef.current * 0.5) * 0.08;
+    const floatX = Math.cos(timeRef.current * 0.3) * 0.05;
+
+    state.camera.position.set(
+      current.position.x + floatX,
+      current.position.y + floatY,
+      current.position.z
+    );
+    state.camera.lookAt(current.target);
+  });
+
+  return null;
+};
+
+// Scroll tuning
+const LEAD = 6; // the line always starts a bit ahead of the camera
+const UNITS_PER_PIXEL = 0.07; // world units of line per wheel pixel
+const MAX_STEP = 3.5; // clamp per wheel event
+const EXIT_THRESHOLD = 15; // extra scrolling needed at the edges to leave the section
+
+const ExperienceSection = ({
+  onScrollToPrev,
+  onScrollToNext,
+  isActive,
+  entry = "start", // "start" | "end" - where the timeline resumes when activated
+}) => {
+  const scrollRef = useRef({
+    min: LEAD,
+    max: journey.totalLength,
+    target: LEAD,
+    current: LEAD,
+  });
   const exitBufferRef = useRef(0);
   const containerRef = useRef(null);
+  const [ui, setUi] = useState({ titleOpacity: 1, showHint: true });
+
+  // Warm up the first card's textures while the user is still in the timeline
+  useEffect(() => {
+    const first = projects[0];
+    if (!first) return;
+    [first.mainImage, ...(first.images || [])].forEach((url) =>
+      useTexture.preload(url)
+    );
+  }, []);
 
   useEffect(() => {
-    // Reset when becoming active
+    // Jump to the start (coming from About) or the end (coming back from
+    // Contact) when becoming active
     if (isActive) {
-      targetProgressRef.current = 0;
-      setScrollProgress(0);
+      const scroll = scrollRef.current;
+      const resumeAt = entry === "end" ? scroll.max : scroll.min;
+      scroll.target = resumeAt;
+      scroll.current = resumeAt;
+      scroll.snapCamera = true;
       exitBufferRef.current = 0;
     }
+    // `entry` is intentionally read only at activation time
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 
   useEffect(() => {
@@ -484,61 +449,48 @@ const ExperienceSection = ({ onScrollToPrev, onScrollToNext, isActive }) => {
       e.preventDefault();
       e.stopPropagation();
 
-      // Calculate scroll delta - normalized for different devices
-      const rawDelta = e.deltaY;
-      const normalizedDelta = rawDelta * 0.0006;
+      const scroll = scrollRef.current;
 
-      // Clamp to prevent huge jumps
-      const delta = Math.max(-0.03, Math.min(0.03, normalizedDelta));
+      // Normalize wheel delta into path units and clamp to prevent huge jumps
+      const rawDelta = THREE.MathUtils.clamp(
+        e.deltaY * UNITS_PER_PIXEL,
+        -MAX_STEP,
+        MAX_STEP
+      );
+      // Slow down while painting a card border, speed up on the straight runs
+      const delta = rawDelta * journey.speedFactorAt(scroll.target);
 
-      const currentProgress = targetProgressRef.current;
-      let newProgress = currentProgress + delta;
+      const previous = scroll.target;
+      let next = previous + delta;
 
-      // Handle boundaries
-      if (newProgress < 0) {
-        // User is scrolling UP and we're at the start
-        // First, clamp progress to 0
-        newProgress = 0;
-
-        // Accumulate exit intent (only when already at 0)
-        if (currentProgress <= 0.01) {
+      if (next < scroll.min) {
+        // At the start and scrolling up: accumulate exit intent
+        next = scroll.min;
+        if (previous <= scroll.min + 0.5) {
           exitBufferRef.current += Math.abs(delta);
-
-          // Need significant scroll to exit
-          if (exitBufferRef.current > 0.15) {
-            if (onScrollToPrev) {
-              onScrollToPrev();
-            }
+          if (exitBufferRef.current > EXIT_THRESHOLD) {
             exitBufferRef.current = 0;
+            if (onScrollToPrev) onScrollToPrev();
             return;
           }
         }
-      } else if (newProgress > 1) {
-        newProgress = 1;
-        // Could add exit forward logic here if needed
+      } else if (next > scroll.max) {
+        // At the end and scrolling down
+        next = scroll.max;
+        if (previous >= scroll.max - 0.5) {
+          exitBufferRef.current += Math.abs(delta);
+          if (exitBufferRef.current > EXIT_THRESHOLD) {
+            exitBufferRef.current = 0;
+            if (onScrollToNext) onScrollToNext();
+            return;
+          }
+        }
       } else {
-        // Normal scrolling - reset exit buffer
         exitBufferRef.current = 0;
       }
 
-      targetProgressRef.current = newProgress;
+      scroll.target = next;
     };
-
-    // Animation loop for smooth progress updates
-    let animationFrame;
-    const animate = () => {
-      setScrollProgress((prev) => {
-        const target = targetProgressRef.current;
-        const diff = target - prev;
-
-        // Smooth interpolation
-        return prev + diff * 0.08;
-      });
-
-      animationFrame = requestAnimationFrame(animate);
-    };
-
-    animationFrame = requestAnimationFrame(animate);
 
     const container = containerRef.current;
     if (container) {
@@ -549,9 +501,15 @@ const ExperienceSection = ({ onScrollToPrev, onScrollToNext, isActive }) => {
       if (container) {
         container.removeEventListener("wheel", handleWheel);
       }
-      cancelAnimationFrame(animationFrame);
     };
   }, [isActive, onScrollToPrev, onScrollToNext]);
+
+  // Particle clusters spread along the whole journey
+  const particleDepths = useMemo(() => {
+    const depths = [];
+    for (let z = 0; z > journey.endZ - 20; z -= 45) depths.push(z);
+    return depths;
+  }, []);
 
   return (
     <div
@@ -565,22 +523,17 @@ const ExperienceSection = ({ onScrollToPrev, onScrollToNext, isActive }) => {
           "radial-gradient(circle at center, #0f1419 0%, #050810 40%, #000000 70%)",
       }}
     >
-      {/* Vignette - always visible */}
-      {/* <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(circle, transparent 50%, rgba(0,0,0,0.6) 100%)",
-          pointerEvents: "none",
-          zIndex: 10,
-        }}
-      /> */}
-
       <Canvas>
         <Suspense fallback={null}>
-          <PerspectiveCamera makeDefault position={[0, 1.5, 20]} fov={55} />
-          <CameraController scrollProgress={scrollProgress} />
+          <PerspectiveCamera
+            makeDefault
+            position={[0, 1.5, 22]}
+            fov={CAMERA_FOV}
+            near={0.1}
+            far={400}
+          />
+          <ScrollDriver scrollRef={scrollRef} onUiChange={setUi} />
+          <CameraRig scrollRef={scrollRef} />
 
           <ambientLight intensity={0.4} />
           <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
@@ -591,19 +544,19 @@ const ExperienceSection = ({ onScrollToPrev, onScrollToNext, isActive }) => {
           />
           <pointLight position={[0, -3, 0]} intensity={0.3} color="#60a5fa" />
 
-          <Timeline scrollProgress={scrollProgress} />
+          <Timeline scrollRef={scrollRef} />
 
           {/* Particles at different Z depths for depth effect */}
-          <Particles position={[0, 0, 0]} />
-          <Particles position={[0, 0, -TOTAL_DEPTH / 2]} />
-          <Particles position={[0, 0, -TOTAL_DEPTH]} />
+          {particleDepths.map((z) => (
+            <Particles key={z} position={[0, 0, z]} />
+          ))}
         </Suspense>
       </Canvas>
 
       <div
         className="absolute top-48 left-0 right-0 transform -translate-y-1/2 z-20 pointer-events-none"
         style={{
-          opacity: Math.max(0, 1 - scrollProgress * 30),
+          opacity: ui.titleOpacity,
           transition: "opacity 0.15s ease-out",
         }}
       >
@@ -647,7 +600,7 @@ const ExperienceSection = ({ onScrollToPrev, onScrollToNext, isActive }) => {
       </div>
 
       {/* Scroll hint */}
-      {scrollProgress < 0.1 && (
+      {ui.showHint && (
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 text-gray-500 text-sm animate-pulse">
           Scroll to explore
         </div>
